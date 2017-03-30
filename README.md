@@ -9,7 +9,7 @@ OneNET JAVA-HTTP-SDK
 
 ## 如何使用
 ### 示例
-以添加设备为例
+以设备新增为例
 ```Java  
     public void testAdddevices() {
 		String key = "9ylHzkz25nre41i=SuJR=F=k5kU=";
