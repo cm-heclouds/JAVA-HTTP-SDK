@@ -7,8 +7,8 @@ OneNET JAVA-HTTP-SDK
 
 本程序一共包含SDK代码和其单元测试（cmcc.iot.onenet.javasdk.ApiTest.java）。SDK使用案例请直接参照单元测试即可。
 
-##如何使用
-###示例
+## 如何使用
+### 示例
 以添加设备为例
 ```Java  
     public void testAdddevices() {
@@ -43,6 +43,7 @@ OneNET JAVA-HTTP-SDK
 		
 	}
    ```  
-   ###注意事项：
+ 
+ ### 注意事项：
 
    更多示例请参考ApiTest中的代码，运行前请确认resources中的config.properties请求的http地址正确
