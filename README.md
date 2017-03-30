@@ -16,7 +16,7 @@ OneNET JAVA-HTTP-SDK
 		String title = "devices_test";  
 		String desc = "devices_test"; 
 		String protocol = "HTTP"; 
-		Location location =new Location(106,29,370);//设备位置{"纬度", "精度", "高度"}（可选）
+		Location location =new Location(106,29,370);//设备位置{"纬度", "经度", "高度"}（可选）
 		List<String> tags = new ArrayList<String>();  
 		tags.add("china");
 		tags.add("mobile");

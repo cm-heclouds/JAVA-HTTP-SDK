@@ -40,7 +40,7 @@ public class  AddDevicesApi extends AbstractAPI {
 	 * @param protocol： 接入协议（可选，默认为HTTP）,String
 	 * @param desc： 设备描述（可选）,String
 	 * @param tags： 设备标签（可选，可为一个或多个）,List<String>
-	 * @param location： 设备位置{"纬度", "精度", "高度"}（可选）,Location类型
+	 * @param location： 设备位置{"纬度", "经度", "高度"}（可选）,Location类型
 	 * @param isPrivate： 设备私密性,Boolean类型
 	 * @param authInfo： 设备唯一编号 ,String
 	 * @param other： 其他信息,Map<String, Object>
