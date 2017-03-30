@@ -1,7 +1,7 @@
 # JAVA-HTTP-SDK
 OneNET JAVA-HTTP-SDK
 本项目是 中移物联网公司 为方便Java开发者接入 OneNET 平台而开发的SDK。关于OneNET请进入[OneNet](http://open.iot.10086.cn)
-主站了解详情。如果要了解OneNet API请进入 [文档中心](http://open.iot.10086.cn/doc) 参考API文档查看。
+主站了解详情。如果要了解OneNet API请进入 [文档中心](http://open.iot.10086.cn/doc) 参考API文档。
 本程序是中移物联的OneNET公众版Java版本的SDK(完整版本)。Java SDK版本为1.8.0_92，maven版本为Apache Maven 3.3.9。
 本SDK包含了OneNET平台的设备、数据流、数据点、触发器和api key的增删改查，以及二进制数据存取、命令执行、Mqtt相关功能。
 
