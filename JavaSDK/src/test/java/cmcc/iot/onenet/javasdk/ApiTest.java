@@ -2,7 +2,6 @@ package cmcc.iot.onenet.javasdk;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +10,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cmcc.iot.onenet.javasdk.api.bindata.AddBindataApi;
 import cmcc.iot.onenet.javasdk.api.bindata.GetBindataApi;
