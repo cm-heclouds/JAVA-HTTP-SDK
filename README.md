@@ -29,10 +29,11 @@ OneNET JAVA-HTTP-SDK
 		 * @param desc： 设备描述（可选）,String
 		 * @param tags： 设备标签（可选，可为一个或多个）,List<String>
 		 * @param location： 设备位置{"纬度", "精度", "高度"}（可选）,Location类型
-		 * @param isPrivate： 设备私密性,Boolean类型
+		 * @param isPrivate： 设备私密性,Boolean类型（可选，默认为ture）
 		 * @param authInfo： 设备唯一编号 ,Object
 		 * @param other： 其他信息,Map<String, Object>
-		 * @param interval： MODBUS设备 下发命令周期,Integer类型
+		 *	（可选，可自定义）	
+		 * @param interval： MODBUS设备 下发命令周期,Integer类型，秒（可选）
 		 * @param key： masterkey,String
 		 */
 		AddDevicesApi api = new AddDevicesApi(title, protocol, desc, tags, location, null, auth_info, null, null, key);
