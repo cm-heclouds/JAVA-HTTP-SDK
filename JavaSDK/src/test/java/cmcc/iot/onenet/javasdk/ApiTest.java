@@ -687,7 +687,7 @@ public class ApiTest {
 	public void testSendStrCmdsApi() throws IOException {
 		String devId = "9288";
 		String key = "JKRfIzneAwXLdI6V0Yy83XOavb8=";
-		String text = "wangxiaojun is laosiji";
+		String text = "xxxxxxxxxxxxxxxxx";
 		/**
 		 * 发送命令
 		 * @param devId：接收该数据的设备ID（必选），String
@@ -716,7 +716,7 @@ public class ApiTest {
 		String devId = "9288";
 		String key = "JKRfIzneAwXLdI6V0Yy83XOavb8=";
 		JSONObject json = new JSONObject();
-		json.put("title", "wangxiaojun is laosiji");
+		json.put("title", "xxxxxxxxxxx");
 		/**
 		 * 发送命令
 		 * @param devId：接收该数据的设备ID（必选）,String
