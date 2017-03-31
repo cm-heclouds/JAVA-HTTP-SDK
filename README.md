@@ -46,4 +46,4 @@ OneNET JAVA-HTTP-SDK
  
  ### 注意事项：
 
-   更多示例请参考ApiTest中的代码，运行前请确认resources中的config.properties请求的http地址正确
+   更多示例请参考ApiTest中的代码，运行前请确认resources中的config.properties请求的IP地址正确
