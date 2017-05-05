@@ -3,6 +3,7 @@ package cmcc.iot.onenet.javasdk.response.device;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,7 +19,7 @@ public class DeviceList {
 	@JsonProperty("devices")
 	private ArrayList<DeviceItem> devices;
     @JsonCreator
-    public DeviceList(@JsonProperty("total_count") int totalcount, @JsonProperty("per_page") int perpage, @JsonProperty("page") int page,@JsonProperty("devices")ArrayList<DeviceItem> devices ) {
+    public DeviceList(@JsonProperty("total_count") int totalcount, @JsonProperty("per_page") int perpage, @JsonProperty("page") int page,@JsonProperty("devices") ArrayList<DeviceItem> devices ) {
         this.totalcount = totalcount;
         this.perpage = perpage;
         this.page = page;
@@ -44,10 +45,18 @@ public class DeviceList {
 		private Date createTime;
 		@JsonProperty("location")
 		private Location location;
-		
+		@JsonProperty("rg_id")
+		private String rgid;
+		@JsonProperty("interval")
+		private Integer interval;
+		@JsonProperty("tags")
+		private List<String> tags;
+		@JsonProperty("other")
+		private Map<String, Object> other;
+
 		@JsonCreator
 		public DeviceItem(@JsonProperty("id")String id, @JsonProperty("title")String title,@JsonProperty("protocol") String protocol, @JsonProperty("desc")String desc, @JsonProperty("private")Boolean isPrivate, @JsonProperty("auth_info")Object authInfo,
-				@JsonProperty("online")Boolean isonline, @JsonProperty("create_time")Date createTime,@JsonProperty("location")Location location) {
+				@JsonProperty("online")Boolean isonline, @JsonProperty("create_time")Date createTime,@JsonProperty("location")Location location,@JsonProperty("rg_id")String rgid,@JsonProperty("interval")Integer interval,@JsonProperty("tags")List<String> tags,@JsonProperty("other")Map<String, Object> other) {
 			super();
 			this.id = id;
 			this.title = title;
@@ -58,6 +67,10 @@ public class DeviceList {
 			this.isonline = isonline;
 			this.createTime = createTime;
 			this.location=location;
+			this.rgid=rgid;
+			this.interval=interval;
+			this.tags = tags;
+			this.other = other;
 		}
 
 		public Location getLocation() {
@@ -164,6 +177,35 @@ public class DeviceList {
 			public void setLon(double lon) {
 				this.lon = lon;
 			}
+		}
+
+		public String getRgid() {
+			return rgid;
+		}
+
+		public void setRgid(String rgid) {
+			this.rgid = rgid;
+		}
+		public Integer getInterval() {
+			return interval;
+		}
+
+		public void setInterval(Integer interval) {
+			this.interval = interval;
+		}
+		public List<String> getTags() {
+			return tags;
+		}
+
+		public void setTags(List<String> tags) {
+			this.tags = tags;
+		}
+		public Map<String, Object> getOther() {
+			return other;
+		}
+
+		public void setOther(Map<String, Object> other) {
+			this.other = other;
 		}
 	}
 
