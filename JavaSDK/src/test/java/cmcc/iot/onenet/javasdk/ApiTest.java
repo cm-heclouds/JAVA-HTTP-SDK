@@ -147,7 +147,7 @@ public class ApiTest {
 		api.build();
 		BasicResponse<DeviceResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
-		System.out.println(response.getJson());;
+		System.out.println(response.getJson());
 	}
 
 	@Test
@@ -175,7 +175,6 @@ public class ApiTest {
 		BasicResponse<DeviceList> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
-		System.out.println(response.getData().getDevices());
 	}
 
 	@Test
