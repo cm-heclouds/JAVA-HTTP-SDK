@@ -30,9 +30,11 @@ public class DatastreamsResponse {
 	private int interval;
 	@JsonProperty("cmd")
 	private String cmd;
+	@JsonProperty("uuid")
+	private String uuid;
 	@JsonCreator
 	public DatastreamsResponse(@JsonProperty("id")String id, @JsonProperty("create_time")Date createTime, @JsonProperty("tags")List<String> tags, @JsonProperty("unit")String unit, @JsonProperty("unit_symbol")String unitSymbol,
-			@JsonProperty("current_value") Object currentValue,@JsonProperty("update_at")Date updateAt,@JsonProperty("formula")String formula,@JsonProperty("interval")int interval,@JsonProperty("cmd")String cmd) {
+			@JsonProperty("current_value") Object currentValue,@JsonProperty("update_at")Date updateAt,@JsonProperty("formula")String formula,@JsonProperty("interval")int interval,@JsonProperty("cmd")String cmd,@JsonProperty("uuid")String uuid) {
 		super();
 		this.id = id;
 		this.createTime = createTime;
@@ -41,6 +43,10 @@ public class DatastreamsResponse {
 		this.unitSymbol = unitSymbol;
 		this.currentValue = currentValue;
 		this.updateAt = updateAt;
+		this.formula=formula;
+		this.interval=interval;
+		this.cmd=cmd;
+		this.uuid=uuid;
 	}
 	public String getId() {
 		return id;
@@ -80,6 +86,30 @@ public class DatastreamsResponse {
 	}
 	public Date getUpdateAt() {
 		return updateAt;
+	}
+	public String getFormula() {
+		return formula;
+	}
+	public void setFormula(String formula) {
+		this.formula = formula;
+	}
+	public int getInterval() {
+		return interval;
+	}
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
+	public String getCmd() {
+		return cmd;
+	}
+	public void setCmd(String cmd) {
+		this.cmd = cmd;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	public void setUpdateAt(Date updateAt) {
 		this.updateAt = updateAt;
