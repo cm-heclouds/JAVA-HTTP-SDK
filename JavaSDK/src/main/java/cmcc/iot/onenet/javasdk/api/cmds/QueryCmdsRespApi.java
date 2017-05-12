@@ -45,18 +45,13 @@ public class QueryCmdsRespApi extends AbstractAPI {
 		this.url = Config.getString("test.url") + "/cmds/" + cmdUuid+"/resp";
 		HttpMethod.setcompleteUrl(url,null);
 	}
-	public BasicResponse<Void> executeApi() {
-		ObjectMapper mapper = new ObjectMapper();
-		BasicResponse response=null;
+	public String executeApi() {
+        String resp=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
-			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
-			response.setJson(mapper.writeValueAsString(response));
-			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), CmdsResponse.class);
-			response.setData(newData);
+			 resp= EntityUtils.toString(httpResponse.getEntity());
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		//	e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
@@ -67,6 +62,6 @@ public class QueryCmdsRespApi extends AbstractAPI {
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}
-		return response;
+		return resp;
 	}
 }
