@@ -764,8 +764,8 @@ public class ApiTest {
 		 */
 		QueryCmdsRespApi api=new QueryCmdsRespApi(cmdUuid,key);
 		api.build();
-		BasicResponse<Void> response = api.executeApi();
-		System.out.println("errno:"+response.errno+" error:"+response.error);
+		String response = api.executeApi();
+		System.out.println(response);
 	}
 	
 	@Test
