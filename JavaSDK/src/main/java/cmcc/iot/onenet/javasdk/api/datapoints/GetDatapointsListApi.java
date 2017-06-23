@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.datapoints;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +37,10 @@ public class GetDatapointsListApi extends AbstractAPI{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	/**
 	 * 数据点查询
-	 * @param datastreamids:查询的数据流，多个数据流之间用逗号分隔（可选）,String
+	 * @param datastreamIds:查询的数据流，多个数据流之间用逗号分隔（可选）,String
 	 * @param start:提取数据点的开始时间（可选）,String
 	 * @param end:提取数据点的结束时间（可选）,String
-	 * @param devid:设备ID,String
+	 * @param devId:设备ID,String
 	 * @param duration:查询时间区间（可选，单位为秒）,Integer
 	 *  start+duration：按时间顺序返回从start开始一段时间内的数据点
 	 *  end+duration：按时间倒序返回从end回溯一段时间内的数据点
@@ -68,52 +69,50 @@ public class GetDatapointsListApi extends AbstractAPI{
 		this.key=key;
 		this.method= Method.GET;
 		this.HttpMethod = new HttpGetMethod(method);
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/devices/" + devId + "/datapoints";
+        // url参数
+        if (datastreamIds != null) {
+            urlmap.put("datastream_id", datastreamIds);
+        }
+        if (start != null) {
+            urlmap.put("start", start);
+        }
+        if (end != null) {
+            urlmap.put("end", end);
+        }
+        if (duration != null) {
+            urlmap.put("duration", duration);
+        }
+        if (limit != null) {
+            urlmap.put("limit", limit);
+        }
+        if (cursor != null) {
+            urlmap.put("cursor", cursor);
+        }
+        if (interval != null) {
+            urlmap.put("interval", interval);
+        }
+        if (metd != null) {
+            urlmap.put("method", metd);
+        }
+        if (first != null) {
+            urlmap.put("first", first);
+        }
+        if (sort != null) {
+            urlmap.put("sort", first);
+        }
+        HttpMethod.setcompleteUrl(url, urlmap);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/devices/" + devId + "/datapoints";
-		// url参数
-		if (datastreamIds != null) {
-			urlmap.put("datastream_id", datastreamIds);
-		}
-		if (start != null) {
-			urlmap.put("start", start);
-		}
-		if (end != null) {
-			urlmap.put("end", end);
-		}
-		if (duration != null) {
-			urlmap.put("duration", duration);
-		}
-		if (limit != null) {
-			urlmap.put("limit", limit);
-		}
-		if (cursor != null) {
-			urlmap.put("cursor", cursor);
-		}
-		if (interval != null) {
-			urlmap.put("interval", interval);
-		}
-		if (metd != null) {
-			urlmap.put("method", metd);
-		}
-		if (first != null) {
-			urlmap.put("first", first);
-		}
-		if (sort != null) {
-			urlmap.put("sort", first);
-		}
-		HttpMethod.setcompleteUrl(url, urlmap);
-	}
+
 	public BasicResponse<DatapointsList> executeApi() {
 		BasicResponse response = null;
-		ObjectMapper mapper = new ObjectMapper();
 		HttpResponse httpResponse = HttpMethod.execute();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));

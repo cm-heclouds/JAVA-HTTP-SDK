@@ -46,43 +46,34 @@ public class AddDatapointsApi extends AbstractAPI{
 		this.devId = devId;
 		this.key=key;
 		this.method=Method.POST;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/devices/"+devId+"/datapoints";
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        if(type!=null){
+            urlmap.put("type", type);
+        }
+        // body参数
+        String json=null;
+        try {
+            if(map!=null){
+                json = mapper.writeValueAsString(map);
+            }
+            else{
+                json=data;//支持其他类型
+            }
+        } catch (Exception e) {
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/devices/"+devId+"/datapoints";
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		if(type!=null){
-			urlmap.put("type", type);
-		}
-		// body参数
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			if(map!=null){
-			 json = remapper.writeValueAsString(map);
-		}
-			else{
-				json=data;//支持其他类型
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,urlmap);
-		
-	}
 	public BasicResponse<Void> executeApi() {
-
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
@@ -90,15 +81,12 @@ public class AddDatapointsApi extends AbstractAPI{
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

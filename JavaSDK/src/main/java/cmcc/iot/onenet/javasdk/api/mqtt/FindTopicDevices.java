@@ -36,30 +36,26 @@ public class FindTopicDevices  extends AbstractAPI{
 		this.topic = topic;
 		this.method = Method.GET;
 		this.key = key;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        HttpMethod = new HttpGetMethod(method);
+        this.url = Config.getString("test.url") +"/mqtt"+"/topic_device";
+        if (topic != null) {
+            urlmap.put("topic", topic);
+        }
+        if (perPage != null) {
+            urlmap.put("per_page", perPage);
+        }
+        if (page != null) {
+            urlmap.put("page", page);
+        }
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		HttpMethod = new HttpGetMethod(method);
-		this.url = Config.getString("test.url") +"/mqtt"+"/topic_device";
-		if (topic != null) {
-			urlmap.put("topic", topic);
-		}
-		if (perPage != null) {
-			urlmap.put("per_page", perPage);
-		}
-		if (page != null) {
-			urlmap.put("page", page);
-		}
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
 	public BasicResponse<TopicDeviceList> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
@@ -69,14 +65,12 @@ public class FindTopicDevices  extends AbstractAPI{
 			response.setData(newData);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

@@ -2,12 +2,8 @@ package cmcc.iot.onenet.javasdk.request;
 
 import java.util.Map;
 
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 
-
-public abstract interface RequestInfo {
+public  interface RequestInfo {
 	//定义一个枚举 
 	public enum Method{
 	    POST,GET,DELETE,PUT

@@ -52,55 +52,51 @@ public class AddTriggersApi extends AbstractAPI{
 		this.threshold = threshold;
 		this.key=key;
 		this.method = Method.POST;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/triggers";
+        // body参数
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (title != null) {
+            bodymap.put("title", title);
+        }
+        if (dsid != null) {
+            bodymap.put("ds_id", dsid);
+        }
+        if (devids != null) {
+            bodymap.put("dev_ids", devids);
+        }
+        if (dsuuids != null) {
+            bodymap.put("ds_uuids", dsuuids);
+        }
+        if (desturl != null) {
+            bodymap.put("url", desturl);
+        }
+        if (type != null) {
+            bodymap.put("type", type);
+        }
+        if (threshold != null) {
+            bodymap.put("threshold", threshold);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/triggers";
-		// body参数
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (title != null) {
-			bodymap.put("title", title);
-		}
-		if (dsid != null) {
-			bodymap.put("ds_id", dsid);
-		}
-		if (devids != null) {
-			bodymap.put("dev_ids", devids);
-		}
-		if (dsuuids != null) {
-			bodymap.put("ds_uuids", dsuuids);
-		}
-		if (desturl != null) {
-			bodymap.put("url", desturl);
-		}
-		if (type != null) {
-			bodymap.put("type", type);
-		}
-		if (threshold != null) {
-			bodymap.put("threshold", threshold);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<NewTriggersResponse> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
@@ -110,15 +106,12 @@ public class AddTriggersApi extends AbstractAPI{
 			response.setData(newData);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

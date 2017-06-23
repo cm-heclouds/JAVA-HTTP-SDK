@@ -42,46 +42,42 @@ public class RegisterDeviceApi extends AbstractAPI{
 		this.key=key;
 		this.mac=mac;
 		this.method = Method.POST;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        url=Config.getString("test.url")+"/register_de";
+
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if(sn!=null){
+            bodymap.put("sn", sn);
+        }
+        if(mac!=null){
+            bodymap.put("mac", mac);
+        }
+        if(title!=null){
+            bodymap.put("title", title);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+            //System.out.println(json);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        if(code!=null){
+            urlmap.put("register_code", code);
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		url=Config.getString("test.url")+"/register_de";
-		
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if(sn!=null){
-			bodymap.put("sn", sn);
-		}
-		if(mac!=null){
-			bodymap.put("mac", mac);
-		}
-		if(title!=null){
-			bodymap.put("title", title);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-			 //System.out.println(json);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		if(code!=null){
-			urlmap.put("register_code", code);
-		}
-	 ((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
+
 	public BasicResponse<RegDeviceResponse> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
@@ -91,14 +87,12 @@ public class RegisterDeviceApi extends AbstractAPI{
 			response.setData(newData);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

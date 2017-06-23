@@ -94,7 +94,6 @@ public class ApiTest {
 		 * @param key： masterkey,String
 		 */
 		AddDevicesApi api = new AddDevicesApi(title, protocol, desc, tags, location, null, auth_info, null, null, key);
-		api.build();
 		BasicResponse<NewDeviceResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
@@ -128,7 +127,6 @@ public class ApiTest {
 		 * @param key ：masterkey 或者 设备apikey,String
 		 */
 		ModifyDevicesApi api = new ModifyDevicesApi(id, title, protocol, desc, tags,null,null,auth_info, null, null,key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -144,7 +142,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey,String
 		 */
 		GetDeviceApi api = new GetDeviceApi(id, key);
-		api.build();
 		BasicResponse<DeviceResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
@@ -171,7 +168,6 @@ public class ApiTest {
 		 */
 		FindDevicesListApi api = new FindDevicesListApi(null, null, null, null, null, null, null, null, null, null,
 				key);
-		api.build();
 		BasicResponse<DeviceList> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
@@ -188,7 +184,6 @@ public class ApiTest {
 		 * @param key: masterkey 或者 设备key
 		 */
 		DeleteDeviceApi api = new DeleteDeviceApi(id, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -209,7 +204,6 @@ public class ApiTest {
 		 * @param key:设备注册码（必填）
 		 */
 		RegisterDeviceApi api = new RegisterDeviceApi(code, null, sn, title, key);
-		api.build();
 		BasicResponse<RegDeviceResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getData().key);
@@ -241,7 +235,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		AddDatastreamsApi api = new AddDatastreamsApi(id, devId, tags, unit, unitsymbol, cmd, interval, formula, key);
-		api.build();
 		BasicResponse<NewdatastramsResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getData().id);
@@ -274,7 +267,6 @@ public class ApiTest {
 		 */
 		ModifyDatastramsApi api = new ModifyDatastramsApi(dsid, devId, tags, unit, unitsymbol, cmd, interval, formula,
 				key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 
@@ -292,7 +284,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		GetDatastreamApi api = new GetDatastreamApi(devId, id, key);
-		api.build();
 		BasicResponse<DatastreamsResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getData().getId());
@@ -310,7 +301,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		FindDatastreamListApi api = new FindDatastreamListApi(datastreamids, devid, key);
-		api.build();
 		BasicResponse<List<DatastreamsResponse>> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
@@ -328,7 +318,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		DeleteDatastreamsApi api = new DeleteDatastreamsApi(devId, dsid, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -359,7 +348,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		AddDatapointsApi api = new AddDatapointsApi(map, null, null, devid, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -386,7 +374,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		AddDatapointsApi api = new AddDatapointsApi(null, data, type, devid, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -417,7 +404,6 @@ public class ApiTest {
 		 */
 		GetDatapointsListApi api = new GetDatapointsListApi(datastreamids, null, null, devid, null, null, null, null,
 				null, null, null, key);
-		api.build();
 		BasicResponse<DatapointsList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -441,7 +427,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		AddTriggersApi api = new AddTriggersApi(null, dsid, null, null, url, type, threshold, key);
-		api.build();
 		BasicResponse<NewTriggersResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -468,7 +453,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		ModifyTriggersApi api = new ModifyTriggersApi(tirggerid, null, null, null, dsuuids, url, type, threshold, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -483,7 +467,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		GetTriggersApi api = new GetTriggersApi(tirggerid, key);
-		api.build();
 		BasicResponse<TriggersResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -500,7 +483,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		FindTriggersListApi api = new FindTriggersListApi(title, null, null, key);
-		api.build();
 		BasicResponse<TriggersList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -515,7 +497,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 设备apikey
 		 */
 		DeleteTriggersApi api = new DeleteTriggersApi(tirggerid, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -537,7 +518,6 @@ public class ApiTest {
 		 * @param filepath：路径,String
 		 */
 		AddBindataApi api = new AddBindataApi(devId, datastreamid, key, filename, filepath);
-		api.build();
 		BasicResponse<NewBindataResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -552,7 +532,6 @@ public class ApiTest {
 		 * @param key:masterkey 或者 该设备的设备key
 		 */
 		GetBindataApi api = new GetBindataApi(index, key);
-		api.build();
 		System.out.println(api.executeApi());
 	}
 
@@ -575,7 +554,6 @@ public class ApiTest {
 		 * @param key:masterkey(注：只能为master-key)
 		 */
 		AddKeyApi api = new AddKeyApi(title, permissions, key);
-		api.build();
 		BasicResponse<NewKeyResponse> response = api.executeApi();
 		System.out.println(response.getData().getKey());
 		System.out.println(response.getJson());
@@ -602,7 +580,6 @@ public class ApiTest {
 		 * @param key：masterkey(注：只能为master-key)
 		 */
 		ModifyKeyApi api = new ModifyKeyApi(title, apikey, permissions, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -620,7 +597,6 @@ public class ApiTest {
 		 * @param key：masterkey(注：只能为master-key)
 		 */
 		FindKeyList api = new FindKeyList(null, null, null, devId, key);
-		api.build();
 		BasicResponse<KeyList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -635,7 +611,6 @@ public class ApiTest {
 		 * @param key：masterkey(注：只能为master-key)
 		 */
 		DeleteKeyApi api = new DeleteKeyApi(keystr, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -676,7 +651,6 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		SendCmdsApi api = new SendCmdsApi(devId, null, null, null, buffer, key);
-		api.build();
 		BasicResponse<NewCmdsResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -704,7 +678,6 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		SendCmdsApi api = new SendCmdsApi(devId, null, null, null, text, key);
-		api.build();
 		BasicResponse<NewCmdsResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -733,7 +706,6 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		SendCmdsApi api = new SendCmdsApi(devId, null, null, null, json, key);
-		api.build();
 		BasicResponse<NewCmdsResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -748,7 +720,6 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		QueryCmdsStatus api=new QueryCmdsStatus(cmdUuid,key);
-		api.build();
 		BasicResponse<CmdsResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -763,9 +734,8 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		QueryCmdsRespApi api=new QueryCmdsRespApi(cmdUuid,key);
-		api.build();
-		BasicResponse<Void> response = api.executeApi();
-		System.out.println("errno:"+response.errno+" error:"+response.error);
+		String response = api.executeApi();
+		System.out.println(response);
 	}
 	
 	@Test
@@ -778,7 +748,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		CreateMqttTopicApi api=new CreateMqttTopicApi(name,key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -796,7 +765,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		SendMqttApi api = new SendMqttApi(topic, json, key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 	}
@@ -815,7 +783,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		FindTopicDevices api=new FindTopicDevices(page, perPage,  topic, key);
-		api.build();
 		BasicResponse<TopicDeviceList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -830,7 +797,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		GetDevicesTopicsApi api=new GetDevicesTopicsApi(devId,key);
-		api.build();
 		BasicResponse<List<String>> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -843,7 +809,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		GetUserTopics api=new GetUserTopics(key);
-		api.build();
 		BasicResponse<List<String>> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -858,7 +823,6 @@ public class ApiTest {
 		 * @param key：masterkey
 		 */
 		DeleteUserTopic api=new DeleteUserTopic(name,key);
-		api.build();
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println(response.getJson());
 	}

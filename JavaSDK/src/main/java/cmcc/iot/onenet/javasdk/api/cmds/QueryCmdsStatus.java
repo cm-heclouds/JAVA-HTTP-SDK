@@ -24,7 +24,7 @@ public class QueryCmdsStatus extends AbstractAPI {
 	
 	
 	/**
-	 * @param cmduuid:命令id,String
+	 * @param cmdUuid:命令id,String
 	 * @param key:masterkey或者设备apikey
 	 */
 	public QueryCmdsStatus(String cmdUuid,String key) {
@@ -32,20 +32,16 @@ public class QueryCmdsStatus extends AbstractAPI {
 		this.key=key;
 		this.method= Method.GET;
 		this.HttpMethod=new HttpGetMethod(method);
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/cmds/" + cmdUuid;
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/cmds/" + cmdUuid;
-		HttpMethod.setcompleteUrl(url,null);
-	}
 	public BasicResponse<CmdsResponse> executeApi() {
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
@@ -54,15 +50,12 @@ public class QueryCmdsStatus extends AbstractAPI {
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), CmdsResponse.class);
 			response.setData(newData);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		//	e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

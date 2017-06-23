@@ -27,30 +27,25 @@ public class GetBindataApi extends AbstractAPI{
 		this.key=key;
 		this.method= Method.GET;
 		this.HttpMethod=new HttpGetMethod(method);
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/bindata" + "/" + index;
+        HttpMethod.setcompleteUrl(url,null);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/bindata" + "/" + index;
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public String executeApi() {
 		String response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
          try {
 			response = EntityUtils.toString(httpResponse.getEntity());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("error:" + e.getMessage());
 			throw new OnenetApiException();
 		} 
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

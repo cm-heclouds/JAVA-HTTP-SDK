@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.triggers;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,34 +36,31 @@ public class FindTriggersListApi extends AbstractAPI{
 		this.perpage = perpage;
 		this.method = Method.GET;
 		this.key = key;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        HttpMethod = new HttpGetMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/triggers";
+        // url参数
+        if (title != null) {
+            urlmap.put("title", title);
+        }
+        if (page != null) {
+            urlmap.put("page", page);
+        }
+        if (perpage != null) {
+            urlmap.put("per_page", perpage);
+        }
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		HttpMethod = new HttpGetMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/triggers";
-		// url参数
-		if (title != null) {
-			urlmap.put("title", title);
-		}
-		if (page != null) {
-			urlmap.put("page", page);
-		}
-		if (perpage != null) {
-			urlmap.put("per_page", perpage);
-		}
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
+
 	public BasicResponse<TriggersList> executeApi() {
 		BasicResponse response = null;
-		ObjectMapper mapper = new ObjectMapper();
 		HttpResponse httpResponse = HttpMethod.execute();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
@@ -70,7 +68,6 @@ public class FindTriggersListApi extends AbstractAPI{
 			response.setData(newData);
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

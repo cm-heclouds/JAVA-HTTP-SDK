@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.datastreams;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class FindDatastreamListApi extends AbstractAPI {
 	/**
 	 * 查询多个数据流
 	 * @param datastreamids:数据流名称 ,String
-	 * @param devid:设备ID,String
+	 * @param devId:设备ID,String
 	 * @param key:masterkey 或者 设备apikey
 	 */
 	public FindDatastreamListApi(String datastreamids, String devId, String key) {
@@ -36,26 +37,24 @@ public class FindDatastreamListApi extends AbstractAPI {
 		this.key = key;
 		this.method = Method.GET;
 		this.HttpMethod = new HttpGetMethod(method);
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/devices/" + devId + "/datastreams";
+        // url参数
+        if (datastreamids != null) {
+            urlmap.put("datastream_ids", datastreamids);
+        }
+        HttpMethod.setcompleteUrl(url, urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/devices/" + devId + "/datastreams";
-		// url参数
-		if (datastreamids != null) {
-			urlmap.put("datastream_ids", datastreamids);
-		}
-		HttpMethod.setcompleteUrl(url, urlmap);
-	}
+
 
 	public BasicResponse<List<DatastreamsResponse>> executeApi() {
 		BasicResponse response = null;
 		ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,43 +33,34 @@ public class SendMqttApi extends AbstractAPI {
 		this.contents = contents;
 		this.key = key;
 		this.method = Method.POST;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        HttpMethod = new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/mqtt";
+        if (topic != null) {
+            urlmap.put("topic", topic);
+        }
+        // body参数处理
+        if (contents instanceof byte[]) {
+            try {
+                String s = new String((byte[]) contents, "UTF-8");
+                ((HttpPostMethod) HttpMethod).setEntity(s);
+            } catch (UnsupportedEncodingException e) {
+
+                // e.printStackTrace();
+                logger.error("bytes[]  error", e.getMessage());
+                throw new OnenetApiException();
+            }
+        }
+        if (contents instanceof String) {
+            ((HttpPostMethod) HttpMethod).setEntity((String) contents);
+        }
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		HttpMethod = new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/mqtt";
-		if (topic != null) {
-			urlmap.put("topic", topic);
-		}
-		// body参数处理
-		if (contents instanceof JSONObject) {
-			((HttpPostMethod) HttpMethod).setEntity(contents.toString());
-		}
-		if (contents instanceof byte[]) {
-			try {
-				String s = new String((byte[]) contents, "UTF-8");
-				((HttpPostMethod) HttpMethod).setEntity(s);
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				logger.error("bytes[]  error", e.getMessage());
-				throw new OnenetApiException();
-			}
-		}
-		if (contents instanceof String) {
-			((HttpPostMethod) HttpMethod).setEntity((String) contents);
-		}
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
 	public BasicResponse<Void> executeApi() {
-
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
@@ -78,19 +68,16 @@ public class SendMqttApi extends AbstractAPI {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
 	}
-	
+
 }

@@ -39,7 +39,6 @@ public class HttpGetMethod extends BasicHttpMethod{
 				}
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				logger.error("error:" + e.getMessage());
 				throw new OnenetApiException();
 			}

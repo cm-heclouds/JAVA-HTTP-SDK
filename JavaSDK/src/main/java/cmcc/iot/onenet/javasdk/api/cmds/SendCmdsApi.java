@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class SendCmdsApi  extends AbstractAPI {
 	 * 对响应时间无限制，多次响应以最后一次为准。
 	 * 本参数仅当type=0时有效；
 	 * @param timeOut:命令有效时间，默认0,Integer
-	 * 0：在线命令，若设备在线,下发给设备，若设备离线，直接丢弃； 
+	 * 0：在线命令，若设备在线,下发给设备，若设备离线，直接丢弃；
 	 *  >0： 离线命令，若设备在线，下发给设备，若设备离线，在当前时间加timeout时间内为有效期，有效期内，若设备上线，则下发给设备。单位：秒，有效围：0~2678400。
 	 *  本参数仅当type=0时有效；
 	 * @param type://默认0。0：发送CMD_REQ包，1：发送PUSH_DATA包
@@ -50,51 +49,44 @@ public class SendCmdsApi  extends AbstractAPI {
 		this.contents=contents;
 		this.key = key;
 		this.method = Method.POST;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/cmds";
+        if(devId!=null){
+            urlmap.put("device_id", devId);
+        }
+        if(qos!=null){
+            urlmap.put("qos", qos);
+        }
+        if(timeOut!=null){
+            urlmap.put("timeout", timeOut);
+        }
+        if(type!=null){
+            urlmap.put("type", type);
+        }
+        //body参数处理
+        if(contents instanceof byte[]){
+            try {
+                String s = new String((byte[]) contents, "UTF-8");
+                ((HttpPostMethod)HttpMethod).setEntity(s);
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+                logger.error("bytes[]  error", e.getMessage());
+                throw new OnenetApiException();
+            }
+        }
+        if(contents instanceof String){
+            ((HttpPostMethod)HttpMethod).setEntity((String)contents);
+        }
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/cmds";
-		if(devId!=null){
-			urlmap.put("device_id", devId);
-		}
-		if(qos!=null){
-			urlmap.put("qos", qos);
-		}
-		if(timeOut!=null){
-			urlmap.put("timeout", timeOut);
-		}
-		if(type!=null){
-			urlmap.put("type", type);
-		}
-		//body参数处理
-		if(contents instanceof JSONObject){
-			((HttpPostMethod)HttpMethod).setEntity(contents.toString());
-		}
-		if(contents instanceof byte[]){
-			try {
-				String s = new String((byte[]) contents, "UTF-8");
-				((HttpPostMethod)HttpMethod).setEntity(s);
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				logger.error("bytes[]  error", e.getMessage());
-				throw new OnenetApiException();
-			}
-		}
-		if(contents instanceof String){
-			((HttpPostMethod)HttpMethod).setEntity((String)contents);
-		}
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
 	public BasicResponse<NewCmdsResponse> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
@@ -102,7 +94,7 @@ public class SendCmdsApi  extends AbstractAPI {
 			response.setJson(mapper.writeValueAsString(response));
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), NewCmdsResponse.class);
 			response.setData(newData);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("json error", e.getMessage());

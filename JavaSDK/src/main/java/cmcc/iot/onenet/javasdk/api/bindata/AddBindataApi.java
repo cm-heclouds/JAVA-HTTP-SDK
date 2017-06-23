@@ -26,7 +26,7 @@ public class AddBindataApi extends AbstractAPI{
 	private HttpPostMethod HttpMethod;
 	/**
 	 * @param devId:数据所属设备（必选）,String
-	 * @param datastreamid:该数据所属已经存在的数据流（必选）,String
+	 * @param datastreamId:该数据所属已经存在的数据流（必选）,String
 	 * @param key:masterkey 或者 该设备的设备key
 	 * @param filename:文件名,String
 	 * @param filepath：路径,String
@@ -38,29 +38,26 @@ public class AddBindataApi extends AbstractAPI{
 		this.filename=filename;
 		this.filepath=filepath;
 		this.method=Method.POST;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/bindata";
+        Map<String, Object> urlmap = new HashMap<String, Object>();
+        if(devId!=null){
+            urlmap.put("device_id", devId);
+        }
+        if(datastreamId!=null){
+            urlmap.put("datastream_id", datastreamId);
+        }
+        Map<String, String> fileMap=new HashMap<String, String>();
+        fileMap.put(filename, filepath);
+        ((HttpPostMethod)HttpMethod).setEntity(null,fileMap);
+        HttpMethod.setcompleteUrl(url,urlmap);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/bindata";
-		Map<String, Object> urlmap = new HashMap<String, Object>();
-		if(devId!=null){
-			urlmap.put("device_id", devId);
-		}
-		if(datastreamId!=null){
-			urlmap.put("datastream_id", datastreamId);
-		}
-		Map<String, String> fileMap=new HashMap<String, String>();
-		fileMap.put(filename, filepath);
-		((HttpPostMethod)HttpMethod).setEntity(null,fileMap);
-		HttpMethod.setcompleteUrl(url,urlmap);
-	}
+
 	public BasicResponse<NewBindataResponse> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {

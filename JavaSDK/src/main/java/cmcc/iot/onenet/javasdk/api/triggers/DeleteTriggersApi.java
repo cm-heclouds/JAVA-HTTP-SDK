@@ -22,43 +22,35 @@ public class DeleteTriggersApi extends AbstractAPI {
 	private HttpDeleteMethod HttpMethod;
 	
 	/**
-	 * @param tirggerid
+	 * @param tirggerId
 	 * @param key
 	 */
 	public DeleteTriggersApi(String tirggerId,String key) {
 		this.tirggerId = tirggerId;
 		this.key=key;
 		this.method = Method.DELETE;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod = new HttpDeleteMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/triggers" + "/" + tirggerId;
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod = new HttpDeleteMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/triggers" + "/" + tirggerId;
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<Void> executeApi() {
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

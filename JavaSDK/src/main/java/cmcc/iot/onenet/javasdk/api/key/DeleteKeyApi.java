@@ -22,29 +22,23 @@ public class DeleteKeyApi extends AbstractAPI{
 	private HttpDeleteMethod HttpMethod;
 	
 	/**
-	 * @param keystr：需要删除的apikey,String
+	 * @param keyStr：需要删除的apikey,String
 	 * @param key：masterkey(注：只能为master-key)
 	 */
 	public DeleteKeyApi(String keyStr, String key) {
 		this.keyStr = keyStr;
 		this.key = key;
 		this.method = Method.DELETE;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod = new HttpDeleteMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/keys" + "/" + keyStr;
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod = new HttpDeleteMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/keys" + "/" + keyStr;
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<Void> executeApi() {
-
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {

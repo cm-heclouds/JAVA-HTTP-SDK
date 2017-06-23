@@ -31,7 +31,7 @@ public class ModifyDatastramsApi extends AbstractAPI {
 
 	/**
 	 * 数据流更新
-	 * @param dsid:数据流名称 ,String
+	 * @param uuid:数据流名称 ,String
 	 * @param devId:设备ID,String
 	 * @param tags:数据流标签（可选，可以为一个或多个）
 	 * @param unit:单位（可选）,String
@@ -54,53 +54,48 @@ public class ModifyDatastramsApi extends AbstractAPI {
 		this.formula = formula;
 		this.key = key;
 		this.method = Method.PUT;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod = new HttpPutMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/devices/" + devId + "/datastreams/" + uuid;
+        // body参数
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (this.tags != null) {
+            bodymap.put("tags", tags);
+        }
+        if (this.unit != null) {
+            bodymap.put("unit", unit);
+        }
+        if (this.unitSymbol != null) {
+            bodymap.put("unit_symbol", unitSymbol);
+        }
+        if (this.cmd != null) {
+            bodymap.put("cmd", cmd);
+        }
+        if (this.interval != null) {
+            bodymap.put("interval", interval);
+        }
+        if (this.formula != null) {
+            bodymap.put("formula", formula);
+        }
+        String json = null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPutMethod) HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url, null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod = new HttpPutMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/devices/" + devId + "/datastreams/" + uuid;
-		// body参数
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (this.tags != null) {
-			bodymap.put("tags", tags);
-		}
-		if (this.unit != null) {
-			bodymap.put("unit", unit);
-		}
-		if (this.unitSymbol != null) {
-			bodymap.put("unit_symbol", unitSymbol);
-		}
-		if (this.cmd != null) {
-			bodymap.put("cmd", cmd);
-		}
-		if (this.interval != null) {
-			bodymap.put("interval", interval);
-		}
-		if (this.formula != null) {
-			bodymap.put("formula", formula);
-		}
-		String json = null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPutMethod) HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url, null);
-	}
 
 	public BasicResponse<Void> executeApi() {
-
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
@@ -108,15 +103,12 @@ public class ModifyDatastramsApi extends AbstractAPI {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

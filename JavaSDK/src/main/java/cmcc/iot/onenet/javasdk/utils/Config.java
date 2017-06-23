@@ -3,8 +3,6 @@ package cmcc.iot.onenet.javasdk.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.LoggerFactory;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -15,7 +13,7 @@ public class Config {
 	private final static Properties properties;
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(Config.class);
 	static {
-		Logger.getRootLogger().setLevel(Level.OFF);
+//		Logger.getRootLogger().setLevel(Level.OFF);
 		InputStream in = Config.class.getClassLoader().getResourceAsStream("config.properties");
 		properties = new Properties();
 		try {

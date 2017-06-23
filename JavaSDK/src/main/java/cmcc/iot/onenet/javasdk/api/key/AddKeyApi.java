@@ -34,38 +34,33 @@ public class AddKeyApi extends AbstractAPI{
 		this.permissions = permissions;
 		this.key=key;
 		this.method = Method.POST;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/keys";
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (title != null) {
+            bodymap.put("title", title);
+        }
+        if(permissions!=null){
+            bodymap.put("permissions", permissions);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,null);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/keys";
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (title != null) {
-			bodymap.put("title", title);
-		}
-		if(permissions!=null){
-			bodymap.put("permissions", permissions);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,null);
-		
-	}
+
 	public BasicResponse<NewKeyResponse> executeApi(){
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {

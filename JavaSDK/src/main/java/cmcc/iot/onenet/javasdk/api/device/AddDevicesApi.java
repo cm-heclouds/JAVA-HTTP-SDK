@@ -62,64 +62,58 @@ public class  AddDevicesApi extends AbstractAPI {
 		this.interval = interval;
 		this.key = key;
 		this.method = Method.POST;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/devices";
+        // body参数
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (title != null) {
+            bodymap.put("title", title);
+        }
+        if (desc != null) {
+            bodymap.put("desc", desc);
+        }
+        if (tags != null) {
+            bodymap.put("tags", tags);
+        }
 
+        if (idsn != null) {
+            bodymap.put("idsn", idsn);
+        }
+        if (location != null) {
+            bodymap.put("location", location.toMap());
+        }
+        if (protocol != null) {
+            bodymap.put("protocol", protocol);
+        }
+        if (authInfo != null) {
+            bodymap.put("auth_info", authInfo);
+
+        }
+        if (interval !=null) {
+            bodymap.put("interval", interval);
+        }
+        if (other != null) {
+            bodymap.put("other", other);
+        }
+        if (other != null) {
+            bodymap.put("private", isPrivate);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/devices";
-		// body参数
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (title != null) {
-			bodymap.put("title", title);
-		}
-		if (desc != null) {
-			bodymap.put("desc", desc);
-		}
-		if (tags != null) {
-			bodymap.put("tags", tags);
-		}
 
-		if (idsn != null) {
-			bodymap.put("idsn", idsn);
-		}
-		if (location != null) {
-			bodymap.put("location", location.toMap());
-		}
-		if (protocol != null) {
-			bodymap.put("protocol", protocol);
-		}
-		if (authInfo != null) {
-			bodymap.put("auth_info", authInfo);
-			
-		}
-		if (interval !=null) {
-			bodymap.put("interval", interval);
-		}
-		if (other != null) {
-			bodymap.put("other", other);
-		}
-		if (other != null) {
-			bodymap.put("private", isPrivate);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,null);
-	}
 	public BasicResponse<NewDeviceResponse> executeApi(){
 		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
@@ -138,7 +132,6 @@ public class  AddDevicesApi extends AbstractAPI {
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

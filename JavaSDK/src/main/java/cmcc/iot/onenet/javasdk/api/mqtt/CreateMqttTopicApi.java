@@ -28,37 +28,33 @@ public class CreateMqttTopicApi extends AbstractAPI {
 		this.name = name;
 		this.key = key;
 		this.method = Method.POST;
-	}
-	
-	
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPostMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/mqtt"+"/topic";
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if(name!=null){
-			bodymap.put("name", name);	
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPostMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,null);
-	}
-	public BasicResponse<Void> executeApi() {
 
-		ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPostMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/mqtt"+"/topic";
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if(name!=null){
+            bodymap.put("name", name);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPostMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,null);
+	}
+	
+	
+
+	public BasicResponse<Void> executeApi() {
 		BasicResponse response = null;
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
@@ -66,15 +62,12 @@ public class CreateMqttTopicApi extends AbstractAPI {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

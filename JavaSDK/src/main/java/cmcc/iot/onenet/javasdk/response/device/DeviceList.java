@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class DeviceList {
 	@JsonProperty("total_count")
@@ -24,7 +25,7 @@ public class DeviceList {
         this.perpage = perpage;
         this.page = page;
         this.devices=devices;
-    } 
+    }
 	public static  class DeviceItem{
 		@JsonProperty("id")
 		private String id;
@@ -40,7 +41,7 @@ public class DeviceList {
 		private Object authInfo;
 		@JsonProperty("online")
 		private Boolean isonline;
-		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		@JsonProperty("create_time")
 		private Date createTime;
 		@JsonProperty("location")
@@ -152,7 +153,7 @@ public class DeviceList {
 			private  double lat;//纬度
 			@JsonProperty("lon")
 			private  double lon;//经度
-			 
+
 			@JsonCreator
 			public Location(@JsonProperty("ele")double ele, @JsonProperty("lat")double lat, @JsonProperty("lon")double lon) {
 				this.ele = ele;

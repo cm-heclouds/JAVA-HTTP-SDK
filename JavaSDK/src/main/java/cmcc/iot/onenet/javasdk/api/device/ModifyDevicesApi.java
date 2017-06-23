@@ -38,7 +38,7 @@ public class ModifyDevicesApi extends AbstractAPI{
 	/***
 	 * 设备更新
 	 * 参数顺序与构造函数顺序一致
-	 * @param id： 设备ID,String
+	 * @param devId： 设备ID,String
 	 * @param title： 设备名，String
 	 * @param protocol： 接入协议（可选，默认为HTTP），String
 	 * @param desc： 设备描述（可选），String
@@ -64,68 +64,62 @@ public class ModifyDevicesApi extends AbstractAPI{
 		this.interval = interval;
 		this.key = key;
 		this.method = Method.PUT;
-	}
-	
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPutMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/devices"+"/"+devId;
-		// body参数
-		
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (title != null) {
-			bodymap.put("title", title);
-		}
-		if (desc != null) {
-			bodymap.put("desc", desc);
-		}
-		if (tags != null) {
-			bodymap.put("tags", tags);
-		}
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPutMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/devices"+"/"+devId;
+        // body参数
 
-		if (idsn != null) {
-			bodymap.put("idsn", idsn);
-		}
-		if (location != null) {
-			bodymap.put("location", location.toMap());
-		}
-		if (isPrivateSet!=null) {
-			bodymap.put("private", isPrivate);
-		}
-		if (protocol != null) {
-			bodymap.put("protocol", protocol);
-		}
-		if (authInfo != null) {
-			bodymap.put("auth_info", authInfo);
-			
-		}
-		if (interval !=null) {
-			bodymap.put("interval", interval);
-		}
-		if (other != null) {
-			bodymap.put("other", other);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPutMethod)HttpMethod).setEntity(json);
-		//System.out.println(url);
-		HttpMethod.setcompleteUrl(url,null);
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (title != null) {
+            bodymap.put("title", title);
+        }
+        if (desc != null) {
+            bodymap.put("desc", desc);
+        }
+        if (tags != null) {
+            bodymap.put("tags", tags);
+        }
+
+        if (idsn != null) {
+            bodymap.put("idsn", idsn);
+        }
+        if (location != null) {
+            bodymap.put("location", location.toMap());
+        }
+        if (isPrivateSet!=null) {
+            bodymap.put("private", isPrivate);
+        }
+        if (protocol != null) {
+            bodymap.put("protocol", protocol);
+        }
+        if (authInfo != null) {
+            bodymap.put("auth_info", authInfo);
+
+        }
+        if (interval !=null) {
+            bodymap.put("interval", interval);
+        }
+        if (other != null) {
+            bodymap.put("other", other);
+        }
+        String json=null;
+        ObjectMapper remapper = new ObjectMapper();
+        try {
+            json = remapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPutMethod)HttpMethod).setEntity(json);
+        //System.out.println(url);
+        HttpMethod.setcompleteUrl(url,null);
 	}
+
 	public BasicResponse executeApi(){
-		
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {

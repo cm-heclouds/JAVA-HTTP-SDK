@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.datastreams;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +26,8 @@ public class GetDatastreamApi extends AbstractAPI{
 	private String devId;
 	/**
 	 * 查询单个数据流
-	 * @param devid
-	 * @param datastreamid
+	 * @param devId
+	 * @param datastreamId
 	 * @param key
 	 */
 	public GetDatastreamApi( String devId,String datastreamId,String key) {
@@ -34,22 +35,20 @@ public class GetDatastreamApi extends AbstractAPI{
 		this.devId = devId;
 		this.key = key;
 		this.method = Method.GET;
+        this.HttpMethod=new HttpGetMethod(method);
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/devices/"+ devId+"/datastreams/"+datastreamId;
+        HttpMethod.setcompleteUrl(url,null);
 		
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		this.HttpMethod=new HttpGetMethod(method);
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/devices/"+ devId+"/datastreams/"+datastreamId;
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<DatastreamsResponse> executeApi() {
 
 		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		HttpResponse httpResponse=HttpMethod.execute();
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
@@ -57,15 +56,12 @@ public class GetDatastreamApi extends AbstractAPI{
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), DatastreamsResponse.class);
 			response.setData(newData);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

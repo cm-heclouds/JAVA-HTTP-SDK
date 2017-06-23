@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.device;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class GetDeviceApi extends AbstractAPI {
 	/**
 	 * 精确查询单个设备
 	 * 参数顺序与构造函数顺序一致
-	 * @param devid:设备名，String
+	 * @param devId:设备名，String
 	 * @param key:masterkey 或者 设备apikey,String
 	 */
 	public GetDeviceApi(String devId, String key) {
@@ -35,37 +36,30 @@ public class GetDeviceApi extends AbstractAPI {
 		this.key = key;
 		this.method = Method.GET;
 		this.HttpMethod=new HttpGetMethod(method);
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url = Config.getString("test.url") + "/devices" + "/" + devId;
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url = Config.getString("test.url") + "/devices" + "/" + devId;
-		HttpMethod.setcompleteUrl(url,null);
-	}
 
 	public BasicResponse<DeviceResponse> executeApi() {
-		ObjectMapper mapper = new ObjectMapper();
 		BasicResponse response=null;
 		HttpResponse httpResponse=HttpMethod.execute();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), DeviceResponse.class);
 			response.setData(newData);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}

@@ -32,21 +32,18 @@ public class GetDevicesTopicsApi extends AbstractAPI{
 		this.devId = devId;
 		this.key=key;
 		this.method = Method.GET;
+
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod = new HttpGetMethod(method);
+        this.url = Config.getString("test.url") +"/mqtt"+"/device_topic/"+devId;
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        HttpMethod.setcompleteUrl(url,null);
 	}
 
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod = new HttpGetMethod(method);
-		this.url = Config.getString("test.url") +"/mqtt"+"/device_topic/"+devId;
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<List<String>> executeApi() {
 		BasicResponse response = null;
-		ObjectMapper mapper = new ObjectMapper();
 		HttpResponse httpResponse = HttpMethod.execute();
 		try {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);

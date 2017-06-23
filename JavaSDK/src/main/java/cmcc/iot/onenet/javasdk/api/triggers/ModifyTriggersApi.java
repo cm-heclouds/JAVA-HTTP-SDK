@@ -32,9 +32,9 @@ public class ModifyTriggersApi extends AbstractAPI {
 
 	/**
 	 * 触发器更新
-	 * @param tirggerid:触发器ID,String
+	 * @param tirggerId:触发器ID,String
 	 * @param title:设备名（可选）,String
-	 * @param dsid数据流名称（id）（可选）,String
+	 * @param dsid 数据流名称（id）（可选）,String
 	 * @param devids:设备ID（可选）,List<String>
 	 * @param dsuuids:数据流uuid（可选）,List<String>
 	 * @param desturl:url,String
@@ -55,51 +55,46 @@ public class ModifyTriggersApi extends AbstractAPI {
 		this.threshold = threshold;
 		this.key = key;
 		this.method = Method.PUT;
+        Map<String, Object> headmap = new HashMap<String, Object>();
+        HttpMethod=  new HttpPutMethod(method);
+        headmap.put("api-key", key);
+        HttpMethod.setHeader(headmap);
+        this.url=Config.getString("test.url")+"/triggers/"+tirggerId;
+        // body参数
+        Map<String, Object> bodymap = new HashMap<String, Object>();
+        if (title != null) {
+            bodymap.put("title", title);
+        }
+        if (dsid != null) {
+            bodymap.put("ds_id", dsid);
+        }
+        if (devids != null) {
+            bodymap.put("dev_ids", devids);
+        }
+        if (dsuuids != null) {
+            bodymap.put("ds_uuids", dsuuids);
+        }
+        if (desturl != null) {
+            bodymap.put("url", desturl);
+        }
+        if (type != null) {
+            bodymap.put("type", type);
+        }
+        if (threshold != null) {
+            bodymap.put("threshold", threshold);
+        }
+        String json=null;
+        try {
+            json = mapper.writeValueAsString(bodymap);
+        } catch (Exception e) {
+
+            logger.error("json error", e.getMessage());
+            throw new OnenetApiException();
+        }
+        ((HttpPutMethod)HttpMethod).setEntity(json);
+        HttpMethod.setcompleteUrl(url,null);
 	}
-	@Override
-	public void build() {
-		// TODO Auto-generated method stub
-		Map<String, Object> headmap = new HashMap<String, Object>();
-		HttpMethod=  new HttpPutMethod(method);
-		headmap.put("api-key", key);
-		HttpMethod.setHeader(headmap);
-		this.url=Config.getString("test.url")+"/triggers/"+tirggerId;
-		// body参数
-		Map<String, Object> bodymap = new HashMap<String, Object>();
-		if (title != null) {
-			bodymap.put("title", title);
-		}
-		if (dsid != null) {
-			bodymap.put("ds_id", dsid);
-		}
-		if (devids != null) {
-			bodymap.put("dev_ids", devids);
-		}
-		if (dsuuids != null) {
-			bodymap.put("ds_uuids", dsuuids);
-		}
-		if (desturl != null) {
-			bodymap.put("url", desturl);
-		}
-		if (type != null) {
-			bodymap.put("type", type);
-		}
-		if (threshold != null) {
-			bodymap.put("threshold", threshold);
-		}
-		String json=null;
-		ObjectMapper remapper = new ObjectMapper();
-		try {
-			 json = remapper.writeValueAsString(bodymap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
-			throw new OnenetApiException();
-		}
-		((HttpPutMethod)HttpMethod).setEntity(json);
-		HttpMethod.setcompleteUrl(url,null);
-	}
+
 	public BasicResponse<Void> executeApi() {
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -110,15 +105,12 @@ public class ModifyTriggersApi extends AbstractAPI {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			logger.error("json error", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}
