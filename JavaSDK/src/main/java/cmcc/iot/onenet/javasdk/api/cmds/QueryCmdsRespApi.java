@@ -55,7 +55,6 @@ public class QueryCmdsRespApi extends AbstractAPI {
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("http close error:" + e.getMessage());
 			throw new OnenetApiException();
 		}
