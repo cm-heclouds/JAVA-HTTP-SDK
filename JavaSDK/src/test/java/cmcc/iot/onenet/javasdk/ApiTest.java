@@ -734,6 +734,10 @@ public class ApiTest {
 		 * @param key:masterkey或者设备apikey
 		 */
 		QueryCmdsRespApi api=new QueryCmdsRespApi(cmdUuid,key);
+<<<<<<< HEAD
+=======
+		api.build();
+>>>>>>> origin/master
 		String response = api.executeApi();
 		System.out.println(response);
 	}

@@ -40,8 +40,11 @@ public class QueryCmdsRespApi extends AbstractAPI {
         this.url = Config.getString("test.url") + "/cmds/" + cmdUuid+"/resp";
         HttpMethod.setcompleteUrl(url,null);
 	}
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> origin/master
 	public String executeApi() {
         String resp=null;
 		HttpResponse httpResponse=HttpMethod.execute();
