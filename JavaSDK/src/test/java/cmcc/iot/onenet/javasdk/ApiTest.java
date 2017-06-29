@@ -705,7 +705,7 @@ public class ApiTest {
 		 * @param contents:用户自定义数据：json、string、二进制数据（小于64K）
 		 * @param key:masterkey或者设备apikey
 		 */
-		SendCmdsApi api = new SendCmdsApi(devId, null, null, null, json, key);
+		SendCmdsApi api = new SendCmdsApi(devId, null, null, null, json.toString(), key);
 		BasicResponse<NewCmdsResponse> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
