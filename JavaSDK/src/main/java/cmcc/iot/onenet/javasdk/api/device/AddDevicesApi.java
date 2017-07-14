@@ -98,7 +98,7 @@ public class  AddDevicesApi extends AbstractAPI {
         if (other != null) {
             bodymap.put("other", other);
         }
-        if (other != null) {
+        if (isPrivate != null) {
             bodymap.put("private", isPrivate);
         }
         String json=null;
