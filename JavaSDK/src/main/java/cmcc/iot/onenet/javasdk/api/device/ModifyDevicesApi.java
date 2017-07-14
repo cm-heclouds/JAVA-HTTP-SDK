@@ -82,13 +82,10 @@ public class ModifyDevicesApi extends AbstractAPI{
             bodymap.put("tags", tags);
         }
 
-        if (idsn != null) {
-            bodymap.put("idsn", idsn);
-        }
         if (location != null) {
             bodymap.put("location", location.toMap());
         }
-        if (isPrivateSet!=null) {
+        if (isPrivate!=null) {
             bodymap.put("private", isPrivate);
         }
         if (protocol != null) {
