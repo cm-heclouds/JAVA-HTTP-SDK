@@ -37,7 +37,6 @@ OneNET JAVA-HTTP-SDK
 		 * @param key： masterkey,String
 		 */
 		AddDevicesApi api = new AddDevicesApi(title, protocol, desc, tags, location, null, auth_info, null, null, key);
-		api.build();
 		BasicResponse<NewDeviceResponse> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
