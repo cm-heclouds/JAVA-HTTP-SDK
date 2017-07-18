@@ -68,14 +68,14 @@ public class FindDevicesListApi extends AbstractAPI {
         HttpMethod = new HttpGetMethod(method);
         this.url = Config.getString("test.url") + "/devices";
         // url参数
-        if (keywords != null) {
+       if (keywords != null) {
             urlmap.put("key_words", keywords);
         }
         if (authinfo != null) {
             urlmap.put("auth_info", authinfo);
         }
-        if (tag != null) {
-            urlmap.put("tag", tag);
+        if (tags != null) {
+            urlmap.put("tag", tags);
         }
         if (isOnline != null) {
             urlmap.put("online", isOnline);
