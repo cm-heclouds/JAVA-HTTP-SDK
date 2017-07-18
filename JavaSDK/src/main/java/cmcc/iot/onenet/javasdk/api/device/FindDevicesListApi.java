@@ -63,6 +63,7 @@ public class FindDevicesListApi extends AbstractAPI {
 		this.perpage = perpage;
 		this.method = Method.GET;
 		this.key = key;
+		this.isOnline = isOnline;
         Map<String, Object> headmap = new HashMap<String, Object>();
         Map<String, Object> urlmap = new HashMap<String, Object>();
         HttpMethod = new HttpGetMethod(method);
