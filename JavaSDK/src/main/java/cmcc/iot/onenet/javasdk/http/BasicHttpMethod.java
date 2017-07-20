@@ -85,7 +85,7 @@ public class BasicHttpMethod implements RequestInfo{
 		}
 	}
 
-	public void setEntity(String json) {
+	public void setEntity(Object json) {
 		// TODO Auto-generated method stub
 
 	}
