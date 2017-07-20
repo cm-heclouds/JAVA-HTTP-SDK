@@ -9,7 +9,7 @@ public  interface RequestInfo {
 	    POST,GET,DELETE,PUT
 	}
 	public void setHeader(Map<String,Object> params);
-	public void setEntity(String json);
+	public void setEntity(Object json);
 	public void setEntity(Map<String, String> stringMap,Map<String,String> fileMap);
 	public void setcompleteUrl(String completeUrl,Map<String,Object> params);
 	public void sethttpMethod(Method method);
