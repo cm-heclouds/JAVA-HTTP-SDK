@@ -40,15 +40,17 @@ public class HttpPostMethod extends BasicHttpMethod{
 	
 	
 	@Override
-	public void setEntity(String json) {
-		// TODO Auto-generated method stub
-		// System.out.println(json);
-		if(json!=null)
-		{
-				StringEntity entity=new StringEntity(json, Charset.forName("UTF-8"));
-				((HttpPost) httpRequestBase).setEntity(entity);//向下转型
+	public void setEntity(Object json) {
+		if (json != null) {
+			if (json instanceof String) {
+				StringEntity entity = new StringEntity(json.toString(), Charset.forName("UTF-8"));
+				((HttpPost) httpRequestBase).setEntity(entity);// 向下转型
+			}
+			if (json instanceof byte[]) {
+				((HttpPost) httpRequestBase).setEntity(new ByteArrayEntity((byte[]) json));
+			}
 		}
-		
+
 	}
 
 	public void setEntity(Map<String, String> stringMap, Map<String, String> fileMap) {
