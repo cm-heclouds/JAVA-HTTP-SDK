@@ -70,15 +70,7 @@ public class SendCmdsApi  extends AbstractAPI {
         }
         //body参数处理
         if(contents instanceof byte[]){
-            try {
-                String s = new String((byte[]) contents, "UTF-8");
-                ((HttpPostMethod)HttpMethod).setEntity(s);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
-                logger.error("bytes[]  error", e.getMessage());
-                throw new OnenetApiException();
-            }
+        	((HttpPostMethod)HttpMethod).setEntity((byte[])contents);
         }
         if(contents instanceof String){
             ((HttpPostMethod)HttpMethod).setEntity((String)contents);
