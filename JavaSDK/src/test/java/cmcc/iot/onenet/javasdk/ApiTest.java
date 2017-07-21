@@ -620,9 +620,6 @@ public class ApiTest {
 	public void testSendBytesCmdsApi() throws IOException {
 		String devId = "9288";
 		String key = "JKRfIzneAwXLdI6V0Yy83XOavb8=";
-		File file = new File("E://data.txt");
-		long fileSize = file.length();
-		FileInputStream fi = new FileInputStream(file);
 	         byte[] buffer = new byte[2];  
 		 buffer[0] = (byte) (0x61);  
 		 buffer[1] = (byte) (0x62); 
