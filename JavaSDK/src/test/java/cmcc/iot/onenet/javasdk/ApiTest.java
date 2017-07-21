@@ -623,17 +623,9 @@ public class ApiTest {
 		File file = new File("E://data.txt");
 		long fileSize = file.length();
 		FileInputStream fi = new FileInputStream(file);
-		byte[] buffer = new byte[(int) fileSize];
-		int offset = 0;
-		int numRead = 0;
-		while (offset < buffer.length && (numRead = fi.read(buffer, offset, buffer.length - offset)) >= 0) {
-			offset += numRead;
-		}
-		// 确保所有数据均被读取
-		if (offset != buffer.length) {
-			throw new IOException("Could not completely read file " + file.getName());
-		}
-		fi.close();
+	         byte[] buffer = new byte[2];  
+		 buffer[0] = (byte) (0x61);  
+		 buffer[1] = (byte) (0x62); 
 		/**
 		 * 发送命令
 		 * @param devId：接收该数据的设备ID（必选），String
