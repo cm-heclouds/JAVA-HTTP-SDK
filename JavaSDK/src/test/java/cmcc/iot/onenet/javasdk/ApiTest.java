@@ -159,7 +159,7 @@ public class ApiTest {
 		 * @param devid: 指定设备ID，多个用逗号分隔，最多100个（可选）,String
 		 * @param begin:起始时间，包括当天（可选）,Date
 		 * @param end:结束时间，包括当天（可选）,Date
-		 * @param tags:标签（可选）,String
+		 * @param tags:设备标签（可选，可为一个或多个）,List<String>
 		 * @param isPrivate： 设备私密性，Boolean类型
 		 * @param page:指定页码，最大页数为10000（可选）,Integer
 		 * @param perpage:指定每页输出设备个数，默认30，最多100（可选）,Integer
