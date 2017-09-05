@@ -54,9 +54,8 @@ public class HttpPutMethod  extends BasicHttpMethod{
 			try {
 				stringEntityMap.put(entry.getKey(),new StringBody(entry.getValue(), Charset.forName("UTF-8")));
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				logger.error("error:"+e.getMessage());
-				throw new OnenetApiException();
+				throw new OnenetApiException(e.getMessage());
 			}
 		}
 		for(Entry<String, String> entry:fileSet)
@@ -91,7 +90,7 @@ public class HttpPutMethod  extends BasicHttpMethod{
 				int statusCode = httpResponse.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK&&statusCode !=221) {
 					logger.error("request failed: {}", statusCode);
-					throw new OnenetApiException();
+					throw new OnenetApiException("request failed: "+EntityUtils.toString(httpResponse.getEntity()));
 				}
 				//response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 				
@@ -99,7 +98,7 @@ public class HttpPutMethod  extends BasicHttpMethod{
 				// TODO Auto-generated catch block
 				//System.out.println(e.getMessage());
 				logger.error("error:" + e.getMessage());
-				throw new OnenetApiException();
+				throw new OnenetApiException(e.getMessage());
 			}
 				  return httpResponse;
 	     

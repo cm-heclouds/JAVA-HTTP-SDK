@@ -121,8 +121,8 @@ public class GetDatapointsListApi extends AbstractAPI{
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("error: {}" e.getMessage());
-			throw new OnenetApiException();
+			logger.error("error: {}", e.getMessage());
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 

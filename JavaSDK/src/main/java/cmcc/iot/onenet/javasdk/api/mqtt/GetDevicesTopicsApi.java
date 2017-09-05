@@ -53,7 +53,7 @@ public class GetDevicesTopicsApi extends AbstractAPI{
 
 		} catch (Exception e) {
 			logger.error("error: {}" , e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 

@@ -18,6 +18,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,9 +63,8 @@ public class HttpPostMethod extends BasicHttpMethod{
 				try {
 					stringEntityMap.put(entry.getKey(),new StringBody(entry.getValue(), Charset.forName("UTF-8")));
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					logger.error("error:"+e.getMessage());
-					throw new OnenetApiException();
+					throw new OnenetApiException(e.getMessage());
 				}
 			}
 			stringBodySet=stringEntityMap.entrySet();
@@ -111,12 +111,11 @@ public class HttpPostMethod extends BasicHttpMethod{
 				int statusCode = httpResponse.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK&&statusCode !=221) {
 					logger.error("request failed: {}", statusCode);
-					throw new OnenetApiException();
+					throw new OnenetApiException("request failed: "+EntityUtils.toString(httpResponse.getEntity()));
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				logger.error("error:" + e.getMessage());
-				throw new OnenetApiException();
+				throw new OnenetApiException(e.getMessage());
 			}
 				  return  httpResponse;
 	     

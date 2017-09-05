@@ -68,8 +68,8 @@ public class FindTriggersListApi extends AbstractAPI{
 			response.setData(newData);
 
 		} catch (Exception e) {
-			logger.error("error: {}" ， e.getMessage());
-			throw new OnenetApiException();
+			logger.error("error: {}" , e.getMessage());
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 

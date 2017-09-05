@@ -65,7 +65,7 @@ public class FindDatastreamListApi extends AbstractAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("error: {}" , e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 

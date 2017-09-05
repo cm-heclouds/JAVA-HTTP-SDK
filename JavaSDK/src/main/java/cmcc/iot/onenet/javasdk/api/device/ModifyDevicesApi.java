@@ -109,7 +109,7 @@ public class ModifyDevicesApi extends AbstractAPI{
             // TODO Auto-generated catch block
             //e.printStackTrace();
             logger.error("json error", e.getMessage());
-            throw new OnenetApiException();
+            throw new OnenetApiException(e.getMessage());
         }
         ((HttpPutMethod)HttpMethod).setEntity(json);
         //System.out.println(url);
@@ -125,14 +125,14 @@ public class ModifyDevicesApi extends AbstractAPI{
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
 			logger.error("json error {}", e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("http close error: {}" , e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 	}

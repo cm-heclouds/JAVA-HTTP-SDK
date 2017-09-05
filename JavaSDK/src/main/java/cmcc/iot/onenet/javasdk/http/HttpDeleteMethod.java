@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,15 +42,12 @@ public class HttpDeleteMethod extends BasicHttpMethod{
 				int statusCode = httpResponse.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK&&statusCode !=221) {
 					logger.error("request failed: {}", statusCode);
-					throw new OnenetApiException();
+					throw new OnenetApiException("request failed: "+EntityUtils.toString(httpResponse.getEntity()));
 				}
-				//response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
-				
+					
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				//System.out.println(e.getMessage());
-				logger.error("error:" + e.getMessage());
-				throw new OnenetApiException();
+				logger.error("error: {}" + e.getMessage());
+				throw new OnenetApiException(e.getMessage());
 			}
 				  return httpResponse;
 	     

@@ -35,12 +35,12 @@ public class HttpGetMethod extends BasicHttpMethod{
 				int statusCode = httpResponse.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK&&statusCode !=221) {
 					logger.error("request failed: {}", EntityUtils.toString(httpResponse.getEntity()));
-					throw new OnenetApiException();
+					throw new OnenetApiException("request failed: "+EntityUtils.toString(httpResponse.getEntity()));
 				}
 				
 			} catch (Exception e) {
 				logger.error("error:" + e.getMessage());
-				throw new OnenetApiException();
+				throw new OnenetApiException(e.getMessage());
 			}
 		return httpResponse;
 	 } 

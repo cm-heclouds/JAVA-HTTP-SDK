@@ -70,10 +70,8 @@ public class BasicHttpMethod implements RequestInfo{
 		try {
 			httpRequestBase.setURI(new URI(url));
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			//System.out.println(e.getMessage());
-			logger.error("url error:"+e.getMessage());
-			throw new OnenetApiException();
+			logger.error("url error: {}",e.getMessage());
+			throw new OnenetApiException(e.getMessage());
 		}
 	}
 	public void setType(boolean upload) {
@@ -101,7 +99,6 @@ public class BasicHttpMethod implements RequestInfo{
 	}
 
 	public void setHeader(Map<String, Object> params) {
-		// TODO Auto-generated method stub
 		if (params != null) {
 			Set<Entry<String, Object>> entrys = params.entrySet();
 			for (Entry<String, Object> entry : entrys)

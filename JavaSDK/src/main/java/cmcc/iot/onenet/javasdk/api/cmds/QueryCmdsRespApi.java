@@ -50,13 +50,13 @@ public class QueryCmdsRespApi extends AbstractAPI {
 			
 		} catch (Exception e) {
 			logger.error("json error {}", e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
 			logger.error("http close error: {}" ,e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		return resp;
 	}

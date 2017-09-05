@@ -65,7 +65,7 @@ public class RegisterDeviceApi extends AbstractAPI{
             json = remapper.writeValueAsString(bodymap);
         } catch (Exception e) {
             logger.error("json error:{}", e.getMessage());
-            throw new OnenetApiException();
+            throw new OnenetApiException(e.getMessage());
         }
         if(code!=null){
             urlmap.put("register_code", code);
@@ -86,13 +86,13 @@ public class RegisterDeviceApi extends AbstractAPI{
 			
 		} catch (Exception e) {
 			logger.error("json error {}", e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
 			logger.error("http close error: {}" , e.getMessage());
-			throw new OnenetApiException();
+			throw new OnenetApiException(e.getMessage());
 		}
 		return response;
 	}
