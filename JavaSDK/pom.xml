@@ -64,6 +64,6 @@
         </dependency>
 	</dependencies>
 		<build>
-		<finalName>JAVASDK</finalName>
+		<finalName>JavaSDK</finalName>
 	</build>
 </project>
