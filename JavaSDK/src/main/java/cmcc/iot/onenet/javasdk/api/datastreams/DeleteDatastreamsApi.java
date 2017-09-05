@@ -47,14 +47,14 @@ public class DeleteDatastreamsApi extends AbstractAPI{
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
 			//e.printStackTrace();
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}",e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
