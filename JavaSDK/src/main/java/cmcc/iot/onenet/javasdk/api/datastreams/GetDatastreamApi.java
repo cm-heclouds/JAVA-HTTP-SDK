@@ -56,13 +56,13 @@ public class GetDatastreamApi extends AbstractAPI{
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), DatastreamsResponse.class);
 			response.setData(newData);
 		} catch (Exception e) {
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
