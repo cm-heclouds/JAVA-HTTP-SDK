@@ -49,7 +49,7 @@ public class QueryCmdsRespApi extends AbstractAPI {
 			 resp= EntityUtils.toString(httpResponse.getEntity());
 			
 		} catch (Exception e) {
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
