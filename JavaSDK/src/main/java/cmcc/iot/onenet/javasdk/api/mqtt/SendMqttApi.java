@@ -48,9 +48,7 @@ public class SendMqttApi extends AbstractAPI {
                 String s = new String((byte[]) contents, "UTF-8");
                 ((HttpPostMethod) HttpMethod).setEntity(s);
             } catch (UnsupportedEncodingException e) {
-
-                // e.printStackTrace();
-                logger.error("bytes[]  error", e.getMessage());
+                logger.error("bytes[]  error {}", e.getMessage());
                 throw new OnenetApiException();
             }
         }
@@ -74,7 +72,7 @@ public class SendMqttApi extends AbstractAPI {
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" + e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
