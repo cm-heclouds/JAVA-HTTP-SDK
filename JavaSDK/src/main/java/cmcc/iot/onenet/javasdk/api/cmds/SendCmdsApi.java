@@ -88,15 +88,13 @@ public class SendCmdsApi  extends AbstractAPI {
 			response.setData(newData);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
