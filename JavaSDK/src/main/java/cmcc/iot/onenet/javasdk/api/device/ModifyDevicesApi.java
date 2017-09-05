@@ -124,16 +124,14 @@ public class ModifyDevicesApi extends AbstractAPI{
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
