@@ -40,13 +40,13 @@ public class GetBindataApi extends AbstractAPI{
          try {
 			response = EntityUtils.toString(httpResponse.getEntity());
 		} catch (Exception e) {
-			logger.error("error:" + e.getMessage());
+			logger.error("error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		} 
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
