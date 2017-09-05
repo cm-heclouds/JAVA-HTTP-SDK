@@ -87,9 +87,7 @@ public class AddDatastreamsApi extends AbstractAPI{
         try {
             json = remapper.writeValueAsString(bodymap);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-            logger.error("json error", e.getMessage());
+            logger.error("json error {}", e.getMessage());
             throw new OnenetApiException();
         }
         ((HttpPostMethod)HttpMethod).setEntity(json);
@@ -109,13 +107,13 @@ public class AddDatastreamsApi extends AbstractAPI{
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try{
 			HttpMethod.httpClient.close();
 		}catch (Exception e) {
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" ,e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
