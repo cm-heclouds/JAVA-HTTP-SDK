@@ -73,7 +73,7 @@ public class FindKeyList extends AbstractAPI{
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), KeyList.class);
 			response.setData(newData);
 		} catch (Exception e) {
-			logger.error("error:" + e.getMessage());
+			logger.error("error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
