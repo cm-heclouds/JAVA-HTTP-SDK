@@ -43,8 +43,6 @@ public class CreateMqttTopicApi extends AbstractAPI {
         try {
             json = remapper.writeValueAsString(bodymap);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
             logger.error("json error", e.getMessage());
             throw new OnenetApiException();
         }
@@ -62,13 +60,13 @@ public class CreateMqttTopicApi extends AbstractAPI {
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 		} catch (Exception e) {
-			logger.error("json error", e.getMessage());
+			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException();
 		}
 		try {
 			HttpMethod.httpClient.close();
 		} catch (Exception e) {
-			logger.error("http close error:" + e.getMessage());
+			logger.error("http close error: {}" , e.getMessage());
 			throw new OnenetApiException();
 		}
 		return response;
