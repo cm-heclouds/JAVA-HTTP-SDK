@@ -29,7 +29,7 @@ public class GetDatapointsListApi extends AbstractAPI{
 	private String devId;
 	private Integer duration;
 	private Integer limit;
-	private Integer cursor;
+	private String cursor;
 	private Integer interval;
 	private String metd;
 	private Integer first;
@@ -45,7 +45,7 @@ public class GetDatapointsListApi extends AbstractAPI{
 	 *  start+duration：按时间顺序返回从start开始一段时间内的数据点
 	 *  end+duration：按时间倒序返回从end回溯一段时间内的数据点
 	 * @param limit:限定本次请求最多返回的数据点数，0<n<=6000（可选，默认1440）,Integer
-	 * @param cursor:指定本次请求继续从cursor位置开始提取数据（可选）,Integer
+	 * @param cursor:指定本次请求继续从cursor位置开始提取数据（可选）,String
 	 * @param interval:通过采样方式返回数据点，interval值指定采样的时间间隔（可选）,Integer
 	 * @param metd:指定在返回数据点时，同时返回统计结果，可能的值为（可选）,String
 	 * @param first:返回结果中最值的时间点。1-最早时间，0-最近时间，默认为1（可选）,Integer
@@ -53,7 +53,7 @@ public class GetDatapointsListApi extends AbstractAPI{
 	 * @param key:masterkey 或者 设备apikey
 	 */
 	public GetDatapointsListApi(String datastreamIds, String start, String end, String devId, Integer duration,
-			Integer limit, Integer cursor, Integer interval, String metd, Integer first, String sort,String key) {
+			Integer limit, String cursor, Integer interval, String metd, Integer first, String sort,String key) {
 		super();
 		this.datastreamIds = datastreamIds;
 		this.start = start;
