@@ -10,19 +10,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DatapointsList {
 	@JsonProperty("count")
 	private String count;
+	@JsonProperty("cursor")
+	private String cursor;
+	
+	public String getCursor() {
+		return cursor;
+	}
+	public void setCursor(String cursor) {
+		this.cursor = cursor;
+	}
 	public String getCount() {
 		return count;
 	}
-
-
-
-
 	public void setCount(String count) {
 		this.count = count;
 	}
-
-
-
 
 	public ArrayList<DatastreamsItem> getDevices() {
 		return devices;
