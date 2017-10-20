@@ -106,13 +106,10 @@ public class ModifyDevicesApi extends AbstractAPI{
         try {
             json = remapper.writeValueAsString(bodymap);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
             logger.error("json error", e.getMessage());
             throw new OnenetApiException(e.getMessage());
         }
         ((HttpPutMethod)HttpMethod).setEntity(json);
-        //System.out.println(url);
         HttpMethod.setcompleteUrl(url,null);
 	}
 
