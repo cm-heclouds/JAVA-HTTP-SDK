@@ -115,12 +115,19 @@ public class FindDevicesListApi extends AbstractAPI {
 			response.setJson(str);
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), DeviceList.class);
 			response.setData(newData);
-
+			return response;
 		} catch (Exception e) {
 			logger.error("error: {}" , e.getMessage());
 			throw new OnenetApiException(e.getMessage());
+		}finally {
+			try {
+				HttpMethod.httpClient.close();
+			} catch (Exception e) {
+				logger.error("http close error: {}", e.getMessage());
+				throw new OnenetApiException(e.getMessage());
+			}
 		}
-		return response;
+		
 
 	}
 

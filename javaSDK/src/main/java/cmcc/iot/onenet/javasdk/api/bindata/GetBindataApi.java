@@ -39,16 +39,18 @@ public class GetBindataApi extends AbstractAPI{
 		HttpResponse httpResponse=HttpMethod.execute();
          try {
 			response = EntityUtils.toString(httpResponse.getEntity());
+			return response;
 		} catch (Exception e) {
 			logger.error("error: {}" , e.getMessage());
 			throw new OnenetApiException(e.getMessage());
-		} 
-		try{
-			HttpMethod.httpClient.close();
-		}catch (Exception e) {
-			logger.error("http close error: {}" , e.getMessage());
-			throw new OnenetApiException(e.getMessage());
+		}finally {
+			try {
+				HttpMethod.httpClient.close();
+			} catch (Exception e) {
+				logger.error("http close error: {}", e.getMessage());
+				throw new OnenetApiException(e.getMessage());
+			}
 		}
-		return response;
+		
 	}
 }

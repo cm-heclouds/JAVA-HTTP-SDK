@@ -100,16 +100,19 @@ public class ModifyDatastramsApi extends AbstractAPI {
 
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
+			return response;
 		} catch (Exception e) {
 			logger.error("json error {}", e.getMessage());
 			throw new OnenetApiException(e.getMessage());
 		}
-		try {
-			HttpMethod.httpClient.close();
-		} catch (Exception e) {
-			logger.error("http close error: {}" , e.getMessage());
-			throw new OnenetApiException(e.getMessage());
+		finally {
+			try {
+				HttpMethod.httpClient.close();
+			} catch (Exception e) {
+				logger.error("http close error: {}", e.getMessage());
+				throw new OnenetApiException(e.getMessage());
+			}
 		}
-		return response;
+		
 	}
 }
