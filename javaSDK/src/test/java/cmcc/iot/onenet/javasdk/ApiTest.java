@@ -1,7 +1,5 @@
 package cmcc.iot.onenet.javasdk;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +25,14 @@ import cmcc.iot.onenet.javasdk.api.device.AddDevicesApi;
 import cmcc.iot.onenet.javasdk.api.device.DeleteDeviceApi;
 import cmcc.iot.onenet.javasdk.api.device.FindDevicesListApi;
 import cmcc.iot.onenet.javasdk.api.device.GetDeviceApi;
+import cmcc.iot.onenet.javasdk.api.device.GetDevicesStatus;
+import cmcc.iot.onenet.javasdk.api.device.GetLatesDeviceData;
 import cmcc.iot.onenet.javasdk.api.device.ModifyDevicesApi;
 import cmcc.iot.onenet.javasdk.api.device.RegisterDeviceApi;
+import cmcc.iot.onenet.javasdk.api.dtu.AddDtuParser;
+import cmcc.iot.onenet.javasdk.api.dtu.DeleteDtuParser;
+import cmcc.iot.onenet.javasdk.api.dtu.FindDtuParserList;
+import cmcc.iot.onenet.javasdk.api.dtu.ModifyDtuParser;
 import cmcc.iot.onenet.javasdk.api.key.AddKeyApi;
 import cmcc.iot.onenet.javasdk.api.key.DeleteKeyApi;
 import cmcc.iot.onenet.javasdk.api.key.FindKeyList;
@@ -56,10 +60,14 @@ import cmcc.iot.onenet.javasdk.response.cmds.NewCmdsResponse;
 import cmcc.iot.onenet.javasdk.response.datapoints.DatapointsList;
 import cmcc.iot.onenet.javasdk.response.datastreams.DatastreamsResponse;
 import cmcc.iot.onenet.javasdk.response.datastreams.NewdatastramsResponse;
+import cmcc.iot.onenet.javasdk.response.device.DeciceLatestDataPoint;
 import cmcc.iot.onenet.javasdk.response.device.DeviceList;
 import cmcc.iot.onenet.javasdk.response.device.DeviceResponse;
+import cmcc.iot.onenet.javasdk.response.device.DevicesStatusList;
 import cmcc.iot.onenet.javasdk.response.device.NewDeviceResponse;
 import cmcc.iot.onenet.javasdk.response.device.RegDeviceResponse;
+import cmcc.iot.onenet.javasdk.response.dtu.DtuParserList;
+import cmcc.iot.onenet.javasdk.response.dtu.NewParserResponse;
 import cmcc.iot.onenet.javasdk.response.key.KeyList;
 import cmcc.iot.onenet.javasdk.response.key.NewKeyResponse;
 import cmcc.iot.onenet.javasdk.response.mqtt.TopicDeviceList;
@@ -172,16 +180,46 @@ public class ApiTest {
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
 	}
-
+	 @Test
+	    public void testGetDevicesStatusApi() {
+	        String key = "9ylHzkz25nre41i=SuJR=F=k5kU=";
+	        String devIds="2406529,2406530";
+	        /**
+	    	 * 批量查询设备状态
+	         * 参数顺序与构造函数顺序一致
+	    	 * @param devIds:设备id用逗号隔开, 限制1000个设备
+	    	 * @param key :masterkey 或者 设备apikey,String
+	    	 */
+	        GetDevicesStatus api = new GetDevicesStatus(devIds,key);
+	        BasicResponse<DevicesStatusList> response = api.executeApi();
+	        System.out.println("errno:"+response.errno+" error:"+response.error);
+	        System.out.println(response.getJson());
+	    }
+	 
+	   @Test
+	    public void testGetLatesDeviceDataApi() {
+	        String key = "9ylHzkz25nre41i=SuJR=F=k5kU=";
+	        String devIds="2406529,2406530";
+	    	/**
+	    	 * 批量查询设备最新数据
+	    	 * 参数顺序与构造函数顺序一致
+	    	 * @param devIds :设备id用逗号隔开, 限制1000个设备,String
+	    	 * @param key:masterkey
+	    	 */
+	        GetLatesDeviceData api = new GetLatesDeviceData(devIds,key);
+	        BasicResponse<DeciceLatestDataPoint> response = api.executeApi();
+	        System.out.println("errno:"+response.errno+" error:"+response.error);
+	        System.out.println(response.getJson());
+	    }
 	@Test
-	public void testRemovedevice() {
+	public void testRemovedeviceApi() {
 		String id = "1674526";
 		String key = "9ylHzkz25nre41i=SuJR=F=k5kU=";
 		/**
 		 * 设备删除
 		 * 参数顺序与构造函数顺序一致
 		 * @param devid: 设备ID,String
-		 * @param key: masterkey 或者 设备key
+		 * @param key: masterkey
 		 */
 		DeleteDeviceApi api = new DeleteDeviceApi(id, key);
 		BasicResponse<Void> response = api.executeApi();
@@ -815,4 +853,74 @@ public class ApiTest {
 		BasicResponse<Void> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
+	
+
+    @Test
+    public void testAddDtuParserApi() {
+        String key = "m4EubNp9WCeAxjFu4lVw=kn2idE=";
+        String name = "zjhtes";
+        String filepath = "E:\\modbus.lua";
+        /**
+    	 * TCP透传新增
+    	 * @param filename ： 名字,String
+    	 * @param filepath:路径，String
+    	 * @param key 必须为masterkey
+    	 */
+        AddDtuParser api = new AddDtuParser(name, filepath,  key) ;
+        BasicResponse<NewParserResponse> response = api.executeApi();
+        System.out.println("errno:"+response.errno+" error:"+response.error);
+        System.out.println(response.getJson());
+    }
+    
+    @Test
+    public void testModifyDtuParserApi() {
+        String key = "m4EubNp9WCeAxjFu4lVw=kn2idE=";
+        String name = "zjhtesb";
+        String filepath = "E:\\modbus.lua";
+        Integer id = 385;
+
+        /**
+         * TCP透传更新
+         * @param id :parserId ,Integer
+         * @param name:名字, String
+         * @param filepath:路径，String
+         * @param key:masterkey 或者 设备apikey
+         */
+        ModifyDtuParser api = new ModifyDtuParser(id, name, filepath, key);
+        BasicResponse<Void> response = api.executeApi();
+        System.out.println("errno:"+response.errno+" error:"+response.error);
+    }
+    
+    @Test
+    public void testFindDtuParserListApi() {
+        String key = "m4EubNp9WCeAxjFu4lVw=kn2idE=";
+        String name = "test";
+ 
+
+        /**
+    	 * TCP透传查询
+    	 * @param name： 名字,精确匹配名字（可选）,String
+    	 * @param key:masterkey 或者 该设备的设备apikey
+    	 */
+        FindDtuParserList api = new FindDtuParserList(name, key);
+        BasicResponse<DtuParserList> response = api.executeApi();
+        System.out.println("errno:"+response.errno+" error:"+response.error);
+        System.out.println(response.getJson());
+    }
+    
+    @Test
+    public void testDeleteDtuParserApi() {
+        String key = "m4EubNp9WCeAxjFu4lVw=kn2idE=";
+        Integer id = 385;
+ 
+
+        /**
+    	 * TCP透传查询
+    	 * @param name： 名字,精确匹配名字（可选）,String
+    	 * @param key:masterkey 或者 该设备的设备apikey
+    	 */
+        DeleteDtuParser api = new DeleteDtuParser(id, key);
+        BasicResponse<Void> response = api.executeApi();
+        System.out.println("errno:"+response.errno+" error:"+response.error);
+    }
 }

@@ -3,8 +3,8 @@ package cmcc.iot.onenet.javasdk.response.cmds;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NewCmdsResponse {
-	  @JsonProperty(value="cmd_uuid")
-	    public String cmduuid;
+	@JsonProperty(value = "cmd_uuid")
+	public String cmduuid;
 
 	public String getCmduuid() {
 		return cmduuid;
