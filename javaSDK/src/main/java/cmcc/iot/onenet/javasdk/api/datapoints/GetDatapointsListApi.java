@@ -104,7 +104,7 @@ public class GetDatapointsListApi extends AbstractAPI{
             urlmap.put("first", first);
         }
         if (sort != null) {
-            urlmap.put("sort", first);
+            urlmap.put("sort", sort);
         }
         HttpMethod.setcompleteUrl(url, urlmap);
 	}
