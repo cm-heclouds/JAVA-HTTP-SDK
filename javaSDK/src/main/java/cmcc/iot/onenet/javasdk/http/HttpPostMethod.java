@@ -99,8 +99,9 @@ public class HttpPostMethod extends BasicHttpMethod {
 			httpResponse = httpClient.execute(httpRequestBase);
 			int statusCode = httpResponse.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK && statusCode != 221) {
-				logger.error("request failed: {}", statusCode);
-				throw new OnenetApiException("request failed: " + EntityUtils.toString(httpResponse.getEntity()));
+				String response =EntityUtils.toString(httpResponse.getEntity());
+				logger.error("request failed: {}", response);
+				throw new OnenetApiException("request failed: "+response);
 			}
 		} catch (Exception e) {
 			logger.error("error:" + e.getMessage());

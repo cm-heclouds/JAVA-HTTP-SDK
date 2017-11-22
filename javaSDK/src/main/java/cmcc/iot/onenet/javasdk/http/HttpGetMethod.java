@@ -23,7 +23,7 @@ public class HttpGetMethod extends BasicHttpMethod{
 
 	public HttpGetMethod(Method method) {
 		super(method);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public HttpResponse execute(){
@@ -34,8 +34,9 @@ public class HttpGetMethod extends BasicHttpMethod{
 				httpResponse = httpClient.execute(httpRequestBase);
 				int statusCode = httpResponse.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK&&statusCode !=221) {
-					logger.error("request failed: {}", EntityUtils.toString(httpResponse.getEntity()));
-					throw new OnenetApiException("request failed: "+EntityUtils.toString(httpResponse.getEntity()));
+					String response =EntityUtils.toString(httpResponse.getEntity());
+					logger.error("request failed: {}", response);
+					throw new OnenetApiException("request failed: "+response);
 				}
 				
 			} catch (Exception e) {
