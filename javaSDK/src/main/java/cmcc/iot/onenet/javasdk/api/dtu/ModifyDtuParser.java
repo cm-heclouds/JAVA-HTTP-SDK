@@ -52,9 +52,8 @@ public class ModifyDtuParser extends AbstractAPI {
 
 	public BasicResponse executeApi() {
 		BasicResponse response = null;
-		HttpResponse httpResponse = HttpMethod.execute();
 		try {
-
+			HttpResponse httpResponse = HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 			return response;

@@ -42,8 +42,8 @@ public class QueryCmdsRespApi extends AbstractAPI {
 
 	public String executeApi() {
 		String resp = null;
-		HttpResponse httpResponse = HttpMethod.execute();
 		try {
+			HttpResponse httpResponse = HttpMethod.execute();
 			resp = EntityUtils.toString(httpResponse.getEntity());
 			return resp;
 		} catch (Exception e) {

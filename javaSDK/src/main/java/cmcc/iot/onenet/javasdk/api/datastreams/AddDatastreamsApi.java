@@ -98,8 +98,8 @@ public class AddDatastreamsApi extends AbstractAPI{
 
 	public BasicResponse<NewdatastramsResponse> executeApi(){
 		BasicResponse response=null;
-		HttpResponse httpResponse=HttpMethod.execute();
 		try {
+			HttpResponse httpResponse=HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(),BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()), NewdatastramsResponse.class);

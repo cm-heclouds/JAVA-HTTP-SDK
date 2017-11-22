@@ -36,8 +36,8 @@ public class GetBindataApi extends AbstractAPI{
 
 	public String executeApi() {
 		String response=null;
-		HttpResponse httpResponse=HttpMethod.execute();
          try {
+        	 HttpResponse httpResponse=HttpMethod.execute();
 			response = EntityUtils.toString(httpResponse.getEntity());
 			return response;
 		} catch (Exception e) {

@@ -107,8 +107,8 @@ public class FindDevicesListApi extends AbstractAPI {
 	public BasicResponse<DeviceList> executeApi() {
 		BasicResponse response = null;
 		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-		HttpResponse httpResponse = HttpMethod.execute();
 		try {
+			HttpResponse httpResponse = HttpMethod.execute();
             InputStream instreams = httpResponse.getEntity().getContent();
             String str = IOUtils.toString(instreams, "UTF-8");
             response = mapper.readValue(str, BasicResponse.class);

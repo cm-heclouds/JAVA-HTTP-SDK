@@ -1,6 +1,7 @@
 package cmcc.iot.onenet.javasdk.http;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Set;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
@@ -91,22 +93,17 @@ public class HttpPostMethod extends BasicHttpMethod {
 		((HttpPost) httpRequestBase).setEntity(reqEntity);
 	}
 
-	public HttpResponse execute() {
+	public HttpResponse execute() throws Exception {
 		HttpResponse httpResponse = null;
 		httpClient = HttpClients.createDefault();
-		try {
-
-			httpResponse = httpClient.execute(httpRequestBase);
+		httpResponse = httpClient.execute(httpRequestBase);
 			int statusCode = httpResponse.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK && statusCode != 221) {
 				String response =EntityUtils.toString(httpResponse.getEntity());
-				logger.error("request failed: {}", response);
+				logger.error("request failed  status:{}, response::{}",statusCode, response);
 				throw new OnenetApiException("request failed: "+response);
 			}
-		} catch (Exception e) {
-			logger.error("error:" + e.getMessage());
-			throw new OnenetApiException(e.getMessage());
-		}
+		
 		return httpResponse;
 
 	}

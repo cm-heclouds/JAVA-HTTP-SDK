@@ -46,8 +46,8 @@ public class FindDtuParserList extends AbstractAPI {
 	public BasicResponse<DtuParserList> executeApi() {
 		BasicResponse response = null;
 		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-		HttpResponse httpResponse = HttpMethod.execute();
 		try {
+			HttpResponse httpResponse = HttpMethod.execute();
             InputStream instreams = httpResponse.getEntity().getContent();
             String str = IOUtils.toString(instreams, "UTF-8");
             response = mapper.readValue(str, BasicResponse.class);

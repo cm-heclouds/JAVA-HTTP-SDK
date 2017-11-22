@@ -55,8 +55,8 @@ public class FindDatastreamListApi extends AbstractAPI {
 		BasicResponse response = null;
 		ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-		HttpResponse httpResponse = HttpMethod.execute();
 		try {
+			HttpResponse httpResponse = HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
 			response.setJson(mapper.writeValueAsString(response));
 			Object newData = mapper.readValue(mapper.writeValueAsString(response.getDataInternal()),  new TypeReference<List<DatastreamsResponse>>(){});
