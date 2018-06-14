@@ -45,11 +45,11 @@ public class DeciceLatestDataPoint {
 			@JsonProperty("at")
 			private Date at;
 			@JsonProperty("value")
-			private Integer value;
+			private Object value;
 
 			@JsonCreator
 			public DatastreamsItem(@JsonProperty("id") String id,@JsonProperty("at") Date at,
-					@JsonProperty("value") Integer value) {
+					@JsonProperty("value") Object value) {
 				super();
 				this.id = id;
 				this.at = at;
@@ -72,11 +72,11 @@ public class DeciceLatestDataPoint {
 				this.at = at;
 			}
 
-			public Integer getValue() {
+			public Object getValue() {
 				return value;
 			}
 
-			public void setValue(Integer value) {
+			public void setValue(Object value) {
 				this.value = value;
 			}
 
