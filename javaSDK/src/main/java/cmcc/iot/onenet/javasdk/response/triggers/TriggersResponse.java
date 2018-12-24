@@ -26,6 +26,16 @@ public class TriggersResponse {
 	private Date createtime;
 	@JsonProperty("target_type")
 	private Date targettype;
+	@JsonProperty("dev_ids")
+	private List<String> devIds;
+	
+	
+	public List<String> getDevIds() {
+		return devIds;
+	}
+	public void setDevIds(List<String> devIds) {
+		this.devIds = devIds;
+	}
 	public Date getTargettype() {
 		return targettype;
 	}
