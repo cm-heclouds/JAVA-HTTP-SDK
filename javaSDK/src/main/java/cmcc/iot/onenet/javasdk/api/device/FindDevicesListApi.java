@@ -11,8 +11,6 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import cmcc.iot.onenet.javasdk.api.AbstractAPI;
 import cmcc.iot.onenet.javasdk.exception.OnenetApiException;
 import cmcc.iot.onenet.javasdk.http.HttpGetMethod;
@@ -38,7 +36,7 @@ public class FindDevicesListApi extends AbstractAPI {
 	/**
 	 * 模糊查询设备
 	 * 参数顺序与构造函数顺序一致
-	 * @param keywords:匹配关键字（可选，从id和title字段中左匹配）,String
+	 * @param @deprecated keywords:匹配关键字（可选，从id和title字段中左匹配）,String
 	 * @param authinfo:鉴权信息（可选，对应注册时的sn参数，唯一设备编号）,Object
 	 * @param devid: 指定设备ID，多个用逗号分隔，最多100个（可选）,String
 	 * @param begin:起始时间，包括当天（可选）,Date
@@ -48,10 +46,12 @@ public class FindDevicesListApi extends AbstractAPI {
 	 * @param page:指定页码，最大页数为10000（可选）,Integer
 	 * @param perpage:指定每页输出设备个数，默认30，最多100（可选）,Integer
 	 * @param isOnline:在线状态（可选）
+	 * @param title:设备名称关键字，字符串，左匹配，大小写不敏感（可选）
+	 * @param imei:设备imei关键字，字符串，左匹配，大小写不敏感（可选）
 	 * @param key:masterkey
 	 */
 	public FindDevicesListApi(String keywords, Object authinfo, String devid, Date begin, Date end, String tags,
-			Boolean isPrivate, Integer page, Integer perpage, Boolean isOnline, String key) {
+			Boolean isPrivate, Integer page, Integer perpage, Boolean isOnline,String title,String imei, String key) {
 		this.keywords = keywords;
 		this.authinfo = authinfo;
 		this.devid = devid;
@@ -66,7 +66,7 @@ public class FindDevicesListApi extends AbstractAPI {
 		this.isOnline = isOnline;
         Map<String, Object> headmap = new HashMap<String, Object>();
         Map<String, Object> urlmap = new HashMap<String, Object>();
-        HttpMethod = new HttpGetMethod(method);
+        this.HttpMethod = new HttpGetMethod(method);
         this.url = Config.getString("test.url") + "/devices";
         // url参数
        if (keywords != null) {

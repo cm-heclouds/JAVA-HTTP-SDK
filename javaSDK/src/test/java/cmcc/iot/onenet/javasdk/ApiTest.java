@@ -1,11 +1,13 @@
 package cmcc.iot.onenet.javasdk;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import cmcc.iot.onenet.javasdk.api.cmds.GetCmdsHistoryApi;
+import cmcc.iot.onenet.javasdk.api.device.*;
+import cmcc.iot.onenet.javasdk.response.cmds.CmdsList;
+import cmcc.iot.onenet.javasdk.response.device.*;
+import cmcc.iot.onenet.javasdk.utils.OrderConstant;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -21,14 +23,6 @@ import cmcc.iot.onenet.javasdk.api.datastreams.DeleteDatastreamsApi;
 import cmcc.iot.onenet.javasdk.api.datastreams.FindDatastreamListApi;
 import cmcc.iot.onenet.javasdk.api.datastreams.GetDatastreamApi;
 import cmcc.iot.onenet.javasdk.api.datastreams.ModifyDatastramsApi;
-import cmcc.iot.onenet.javasdk.api.device.AddDevicesApi;
-import cmcc.iot.onenet.javasdk.api.device.DeleteDeviceApi;
-import cmcc.iot.onenet.javasdk.api.device.FindDevicesListApi;
-import cmcc.iot.onenet.javasdk.api.device.GetDeviceApi;
-import cmcc.iot.onenet.javasdk.api.device.GetDevicesStatus;
-import cmcc.iot.onenet.javasdk.api.device.GetLatesDeviceData;
-import cmcc.iot.onenet.javasdk.api.device.ModifyDevicesApi;
-import cmcc.iot.onenet.javasdk.api.device.RegisterDeviceApi;
 import cmcc.iot.onenet.javasdk.api.dtu.AddDtuParser;
 import cmcc.iot.onenet.javasdk.api.dtu.DeleteDtuParser;
 import cmcc.iot.onenet.javasdk.api.dtu.FindDtuParserList;
@@ -60,12 +54,6 @@ import cmcc.iot.onenet.javasdk.response.cmds.NewCmdsResponse;
 import cmcc.iot.onenet.javasdk.response.datapoints.DatapointsList;
 import cmcc.iot.onenet.javasdk.response.datastreams.DatastreamsResponse;
 import cmcc.iot.onenet.javasdk.response.datastreams.NewdatastramsResponse;
-import cmcc.iot.onenet.javasdk.response.device.DeciceLatestDataPoint;
-import cmcc.iot.onenet.javasdk.response.device.DeviceList;
-import cmcc.iot.onenet.javasdk.response.device.DeviceResponse;
-import cmcc.iot.onenet.javasdk.response.device.DevicesStatusList;
-import cmcc.iot.onenet.javasdk.response.device.NewDeviceResponse;
-import cmcc.iot.onenet.javasdk.response.device.RegDeviceResponse;
 import cmcc.iot.onenet.javasdk.response.dtu.DtuParserList;
 import cmcc.iot.onenet.javasdk.response.dtu.NewParserResponse;
 import cmcc.iot.onenet.javasdk.response.key.KeyList;
@@ -175,7 +163,7 @@ public class ApiTest {
 		 * @param key:masterkey
 		 */
 		FindDevicesListApi api = new FindDevicesListApi(null, null, null, null, null, null, null, null, null, null,
-				key);
+				null,null,key);
 		BasicResponse<DeviceList> response = api.executeApi();
 		System.out.println("errno:"+response.errno+" error:"+response.error);
 		System.out.println(response.getJson());
@@ -496,6 +484,24 @@ public class ApiTest {
 	}
 
 	@Test
+	public void testModifyKeyRelDeviceListApi() {
+		String apiKey = "aZTcGDO6HEjluD85aIe=tgoaOV8=";
+		String masterKey = "BRON6gVO7RPrDEngH8W32prf4lg=";
+		String addDevId1 = "19751301";
+		String addDevId2 = "19751420";
+		String delDevId1 = "19751419";
+		/**
+		 * 修改apiKey关联设备关系api
+		 * @param addDevIds:待关联设备列表，List<String>
+		 * @param delDevIds:已关联设备列表,List<String>
+		 * @param apiKey:设备apikey
+		 * @param masterkey:产品masterkey
+		 */
+		BasicResponse<ModifyKeyRelDeviceResponse> re = new ModifyKeyRelDeviceListApi
+				(Arrays.asList(addDevId1,addDevId2),Arrays.asList(delDevId1),apiKey,masterKey).executeApi();
+		System.out.println(re.getJson());
+	}
+	@Test
 	public void testGetTriggersApi() {
 		String tirggerid = "288";
 		String key = "m4EubNp9WCeAxjFu4lVw=kn2idE=";
@@ -524,6 +530,27 @@ public class ApiTest {
 		BasicResponse<TriggersList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
+
+
+	@Test
+	public void testFindKeyRelDeviceListApi() {
+		String apiKey = "aZTcGDO6HEjluD85aIe=tgoaOV8=";
+		String masterKey = "BRON6gVO7RPrDEngH8W32prf4lg=";
+		boolean isRelated = true;
+		/**
+		 * api-key关联/未关联的设备分页列表查询
+		 * @param page:指定页码，最大页数为10000（可选）,Integer
+		 * @param perPage:指定每页输出设备个数，默认30，最多100（可选）,Integer
+		 * @param deviceId:设备id,String
+		 * @param deviceTitle:设备名称,String
+		 * @param isRelated:关联/未关联,bool
+		 * @param apiKey:设备apiKey
+		 * @param masterKey:产品masterkey
+		 */
+		BasicResponse<KeyRelDeviceList> list = new FindKeyRelDeviceListApi(1,10,null,"",isRelated,apiKey,masterKey).executeApi();
+		System.out.println(list.getJson());
+	}
+
 
 	@Test
 	public void testRemoveTriggersApi() {
@@ -634,7 +661,7 @@ public class ApiTest {
 		 * @param devid：可选,只查看与该设备相关的非master-key,String
 		 * @param key：masterkey(注：只能为master-key)
 		 */
-		FindKeyList api = new FindKeyList(null, null, null, devId, key);
+		FindKeyList api = new FindKeyList(null,null, null, null, devId, key);
 		BasicResponse<KeyList> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
@@ -839,7 +866,35 @@ public class ApiTest {
 		BasicResponse<List<String>> response = api.executeApi();
 		System.out.println(response.getJson());
 	}
-	
+	@Test
+	public void testGetCmdsHistoryApi(){
+		String key="kRNzo7D0cXdf6kXXnFk=T2X2Nx4=";
+		String start = "2018-12-28T08:00:00";
+		String devId = "4944074";
+		/**
+		 * 查询设备历史命令
+		 * @param devId：设备id
+		 * @param key：master-key
+		 * @param start：起始时间
+		 * @param start：结束时间
+		 * @param duration：时间间隔
+		 * @param limit：查询条数
+		 * @param sort：ASC/DESC
+		 * @param status：命令状态
+		 */
+		/**
+		 * status说明
+		 * 1：命令已创建| Command Created
+		 * 2：命令已发往设备| Command Sent
+		 * 3：命令发往设备失败| Send Command Failed
+		 * 4：设备正常响应| Command Response Received
+		 * 5：命令执行超时| Command Response Timeout
+		 * 6：设备响应消息过长 | Command Response Too Large
+		 **/
+		BasicResponse<CmdsList>  resp = new GetCmdsHistoryApi(devId,key, start,null,null,10,null, OrderConstant.ORDER_ASC,1).executeApi();
+		System.out.println(resp.getJson());
+	}
+
 	@Test
 	public void testRemoveUserTopic(){
 		String key="JKRfIzneAwXLdI6V0Yy83XOavb8=";

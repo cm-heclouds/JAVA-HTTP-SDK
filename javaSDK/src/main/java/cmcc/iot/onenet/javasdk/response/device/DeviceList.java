@@ -52,12 +52,28 @@ public class DeviceList {
 		private Integer interval;
 		@JsonProperty("tags")
 		private List<String> tags;
+		/***
+		 * 设备最后上线时间
+		 **/
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+		@JsonProperty("last_login")
+		private Date lastLogin;
+
+		/***
+		 * rtmp协议设备下通道数量
+		 **/
+		@JsonProperty("channel_count")
+		private Integer channelCount;
+
 		@JsonProperty("other")
 		private Map<String, Object> other;
 
+
+
 		@JsonCreator
 		public DeviceItem(@JsonProperty("id")String id, @JsonProperty("title")String title,@JsonProperty("protocol") String protocol, @JsonProperty("desc")String desc, @JsonProperty("private")Boolean isPrivate, @JsonProperty("auth_info")Object authInfo,
-				@JsonProperty("online")Boolean isonline, @JsonProperty("create_time")Date createTime,@JsonProperty("location")Location location,@JsonProperty("rg_id")String rgid,@JsonProperty("interval")Integer interval,@JsonProperty("tags")List<String> tags,@JsonProperty("other")Map<String, Object> other) {
+				@JsonProperty("online")Boolean isonline, @JsonProperty("create_time")Date createTime,@JsonProperty("location")Location location,@JsonProperty("rg_id")String rgid,@JsonProperty("interval")Integer interval,@JsonProperty("tags")List<String> tags,
+						  @JsonProperty("channel_count") Integer channelCount,@JsonProperty("last_login") Date lastLogin,@JsonProperty("other")Map<String, Object> other) {
 			super();
 			this.id = id;
 			this.title = title;
@@ -71,6 +87,8 @@ public class DeviceList {
 			this.rgid=rgid;
 			this.interval=interval;
 			this.tags = tags;
+			this.lastLogin = lastLogin;
+			this.channelCount = channelCount;
 			this.other = other;
 		}
 

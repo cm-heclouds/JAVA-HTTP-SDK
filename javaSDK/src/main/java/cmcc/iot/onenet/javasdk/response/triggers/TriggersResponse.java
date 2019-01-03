@@ -28,6 +28,10 @@ public class TriggersResponse {
 	private Date targettype;
 	@JsonProperty("dev_ids")
 	private List<String> devIds;
+	@JsonProperty("dev_details")
+	private List<TriggerDeviceDetailItem> devDetails;
+	@JsonProperty("ds_id")
+	private String dsId;
 	
 	
 	public List<String> getDevIds() {
@@ -91,5 +95,19 @@ public class TriggersResponse {
 		this.invalid = invalid;
 	}
 
+	public List<TriggerDeviceDetailItem> getDevDetails() {
+		return devDetails;
+	}
 
+	public void setDevDetails(List<TriggerDeviceDetailItem> devDetails) {
+		this.devDetails = devDetails;
+	}
+
+	public String getDsId() {
+		return dsId;
+	}
+
+	public void setDsId(String dsId) {
+		this.dsId = dsId;
+	}
 }
