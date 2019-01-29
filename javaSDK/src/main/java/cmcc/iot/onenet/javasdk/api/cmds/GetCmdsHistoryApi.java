@@ -7,7 +7,6 @@ import cmcc.iot.onenet.javasdk.response.BasicResponse;
 import cmcc.iot.onenet.javasdk.response.cmds.CmdsList;
 import cmcc.iot.onenet.javasdk.utils.Config;
 import cmcc.iot.onenet.javasdk.request.RequestInfo.Method;
-import cmcc.iot.onenet.javasdk.utils.OrderConstant;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.Asserts;

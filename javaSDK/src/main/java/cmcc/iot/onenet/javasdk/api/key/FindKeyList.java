@@ -9,14 +9,11 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import cmcc.iot.onenet.javasdk.api.AbstractAPI;
 import cmcc.iot.onenet.javasdk.exception.OnenetApiException;
 import cmcc.iot.onenet.javasdk.http.HttpGetMethod;
 import cmcc.iot.onenet.javasdk.request.RequestInfo.Method;
 import cmcc.iot.onenet.javasdk.response.BasicResponse;
-import cmcc.iot.onenet.javasdk.response.device.DeviceList;
 import cmcc.iot.onenet.javasdk.response.key.KeyList;
 import cmcc.iot.onenet.javasdk.utils.Config;
 

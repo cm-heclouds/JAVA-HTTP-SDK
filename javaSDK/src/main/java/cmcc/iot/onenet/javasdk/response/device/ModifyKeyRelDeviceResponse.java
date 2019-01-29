@@ -3,8 +3,6 @@ package cmcc.iot.onenet.javasdk.response.device;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-
 /**
  * 
  * @Description 4.7.6修改apikey关联设备列表接口 的返回结果对象
