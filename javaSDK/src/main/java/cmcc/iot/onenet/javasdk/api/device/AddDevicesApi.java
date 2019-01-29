@@ -1,5 +1,6 @@
 package cmcc.iot.onenet.javasdk.api.device;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class  AddDevicesApi extends AbstractAPI {
 	 * @param tags： 设备标签（可选，可为一个或多个）,List<String>
 	 * @param location： 设备位置{"纬度", "经度", "高度"}（可选）,Location类型
 	 * @param isPrivate： 设备私密性,Boolean类型
-	 * @param authInfo： 设备唯一编号 ,String
+	 * @param authInfo： 设备唯一编号 ,String或json
 	 * @param other： 其他信息,Map<String, Object>
 	 * @param interval： MODBUS设备 下发命令周期,Integer类型
 	 * @param key： masterkey,String
@@ -138,5 +139,4 @@ public class  AddDevicesApi extends AbstractAPI {
 		}
 		
 	}
-	
 }

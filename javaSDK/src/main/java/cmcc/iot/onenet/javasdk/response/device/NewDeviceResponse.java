@@ -5,13 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class NewDeviceResponse {
 
     @JsonProperty(value="device_id")
-    public String DeviceId;
+    private String deviceId;
+
+
+    @JsonProperty(value="psk")
+    private String psk;
+
 
     public String getDeviceId() {
-        return DeviceId;
+        return deviceId;
     }
 
     public void setDeviceId(String DeviceId) {
-        this.DeviceId = DeviceId;
+        this.deviceId = DeviceId;
+    }
+
+    public String getPsk() {
+        return psk;
+    }
+
+    public void setPsk(String psk) {
+        this.psk = psk;
     }
 }
