@@ -27,7 +27,7 @@ public class DeviceList {
         this.page = page;
         this.devices=devices;
     }
-    @JsonIgnoreProperties(ignoreUnknown = true)
+//    @JsonIgnoreProperties(ignoreUnknown = true)
 	public static  class DeviceItem{
 		@JsonProperty("id")
 		private String id;

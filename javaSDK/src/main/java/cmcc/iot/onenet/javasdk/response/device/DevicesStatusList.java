@@ -19,6 +19,7 @@ public class DevicesStatusList {
 		this.totalcount = totalcount;
 		this.devices = devices;
 	}
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static  class DeviceItem{
 	
 
