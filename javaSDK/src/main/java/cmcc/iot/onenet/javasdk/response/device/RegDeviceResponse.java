@@ -1,7 +1,9 @@
 package cmcc.iot.onenet.javasdk.response.device;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegDeviceResponse {
     public String getKey() {
 		return key;

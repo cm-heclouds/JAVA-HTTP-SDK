@@ -3,8 +3,10 @@ package cmcc.iot.onenet.javasdk.response.device;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DevicesStatusList {
 	@JsonProperty("total_count")
 	private int totalcount;

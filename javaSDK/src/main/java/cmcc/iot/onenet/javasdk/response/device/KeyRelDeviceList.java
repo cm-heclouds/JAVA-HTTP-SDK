@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @version 1.0
  *
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyRelDeviceList {
 
     @JsonProperty("total_count")
