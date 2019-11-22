@@ -46,8 +46,7 @@ public class GetLatesDeviceData extends AbstractAPI{
 	}
 	
 	public BasicResponse<DeciceLatestDataPoint> executeApi() {
-		BasicResponse response=null;
-        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		BasicResponse response;
 		try {
 			HttpResponse httpResponse=HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);

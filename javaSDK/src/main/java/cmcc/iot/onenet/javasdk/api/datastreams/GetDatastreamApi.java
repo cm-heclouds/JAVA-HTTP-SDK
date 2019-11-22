@@ -45,10 +45,9 @@ public class GetDatastreamApi extends AbstractAPI{
 	}
 
 	public BasicResponse<DatastreamsResponse> executeApi() {
-
-		ObjectMapper mapper = new ObjectMapper();
-		BasicResponse response=null;
-                mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		BasicResponse response;
+//		ObjectMapper mapper = new ObjectMapper();
+//                mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		try {
 			HttpResponse httpResponse=HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);

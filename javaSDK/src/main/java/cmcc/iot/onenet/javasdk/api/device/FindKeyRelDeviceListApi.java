@@ -70,7 +70,7 @@ public class FindKeyRelDeviceListApi extends AbstractAPI{
 
     public BasicResponse<KeyRelDeviceList> executeApi() {
         BasicResponse response;
-        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+//        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         try {
             HttpResponse httpResponse=HttpMethod.execute();
             response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);

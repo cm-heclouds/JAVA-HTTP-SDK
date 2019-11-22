@@ -186,8 +186,8 @@ public class ApiTest {
 	 
 	   @Test
 	    public void testGetLatesDeviceDataApi() {
-	        String key = "9ylHzkz25nre41i=SuJR=F=k5kU=";
-	        String devIds="2406529,2406530";
+	        String key = "UJmJX9icLYb68xe5oKbnv15I8BA=";
+	        String devIds="33101013";
 	    	/**
 	    	 * 批量查询设备最新数据
 	    	 * 参数顺序与构造函数顺序一致
@@ -256,7 +256,7 @@ public class ApiTest {
 		 * @param unit:单位（可选）,String
 		 * @param unitSymbol:单位符号（可选）,String
 		 * @param cmd:MODBUS设备填写，周期下发命令，16进制字节字符串
-		 * @param interval:MODBUS设备填写，采集间隔，秒,Integer
+		 * @param interval:MODBUS设备填写，采集间隔，秒,Integer，参数已
 		 * @param formula:MODBUS设备填写，寄存器计算公式（可选）,String
 		 * @param key:masterkey 或者 设备apikey
 		 */

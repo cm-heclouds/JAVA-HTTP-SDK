@@ -44,7 +44,7 @@ public class FindDtuParserList extends AbstractAPI {
 	}
 
 	public BasicResponse<DtuParserList> executeApi() {
-		BasicResponse response = null;
+		BasicResponse response;
 		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 		try {
 			HttpResponse httpResponse = HttpMethod.execute();

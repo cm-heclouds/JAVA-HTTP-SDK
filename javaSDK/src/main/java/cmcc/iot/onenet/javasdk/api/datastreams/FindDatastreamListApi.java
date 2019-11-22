@@ -52,9 +52,9 @@ public class FindDatastreamListApi extends AbstractAPI {
 
 
 	public BasicResponse<List<DatastreamsResponse>> executeApi() {
-		BasicResponse response = null;
-		ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		BasicResponse response;
+		/*ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));*/
 		try {
 			HttpResponse httpResponse = HttpMethod.execute();
 			response = mapper.readValue(httpResponse.getEntity().getContent(), BasicResponse.class);
